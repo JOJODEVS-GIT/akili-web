@@ -22,7 +22,7 @@ cp .env.example .env.local       # remplir si Supabase activé
 npm run dev
 ```
 
-L'app tourne sur `http://localhost:5173`.
+L'app tourne sur ``.
 
 ### Build production
 ```bash
