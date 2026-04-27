@@ -1,0 +1,455 @@
+═══════════════════════════════════════════════════════════════════
+ AKILI WEB — GUIDE DE COLLABORATION
+ À lire AVANT de toucher au code
+═══════════════════════════════════════════════════════════════════
+
+Hackathon EIG × Akili — Cotonou
+Repo : https://github.com/JOJODEVS-GIT/akili-web (privé)
+Lead : JOJODEVS-GIT
+Stack : React 18 + Vite 5 + Tailwind 3 + Framer Motion + Supabase
+
+
+═══════════════════════════════════════════════════════════════════
+ 1. PREMIER SETUP (À FAIRE UNE SEULE FOIS)
+═══════════════════════════════════════════════════════════════════
+
+A. Le Lead t'a invité comme collaborator :
+   → Tu reçois un email "JOJODEVS-GIT invited you to collaborate"
+   → Clique sur le lien dans l'email pour accepter
+   → Ou va sur : https://github.com/JOJODEVS-GIT/akili-web/invitations
+
+B. Cloner le repo :
+   git clone https://github.com/JOJODEVS-GIT/akili-web.git
+   cd akili-web
+
+C. Installer les dépendances :
+   npm install
+
+D. Lancer en local :
+   npm run dev
+   → http://localhost:5173 doit s'ouvrir
+
+E. (Optionnel — quand on activera Supabase)
+   cp .env.example .env.local
+   → Le Lead te donnera VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY
+
+
+═══════════════════════════════════════════════════════════════════
+ 2. BRANCHES — RÈGLE D'OR
+═══════════════════════════════════════════════════════════════════
+
+      main  ← PRODUCTION (Vercel auto-deploy)
+       │     ⚠️ INTOUCHABLE EN DIRECT
+       │
+       └── dev  ← INTÉGRATION STABLE
+             │   ⚠️ INTOUCHABLE EN DIRECT
+             │
+             ├── feat/xxx       ← nouvelles features
+             ├── fix/xxx        ← bug fixes
+             └── chore/xxx      ← refactoring, deps
+
+❌ JAMAIS :
+   git push origin main
+   git push origin dev
+
+✅ TOUJOURS :
+   - Partir de `dev` à jour
+   - Créer une branche `feat/xxx`, `fix/xxx` ou `chore/xxx`
+   - Coder, commiter, pusher
+   - Ouvrir une Pull Request VERS `dev`
+   - Attendre la review du Lead
+
+Exemples de noms de branches :
+   feat/login-google-oauth
+   fix/dashboard-mobile-overflow
+   chore/upgrade-react-19
+   docs/update-readme
+
+
+═══════════════════════════════════════════════════════════════════
+ 3. WORKFLOW QUOTIDIEN — LES 6 ÉTAPES
+═══════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ÉTAPE 1 — Toujours partir de dev à jour                        │
+└─────────────────────────────────────────────────────────────────┘
+
+   git checkout dev
+   git pull origin dev
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ÉTAPE 2 — Créer ta branche                                     │
+└─────────────────────────────────────────────────────────────────┘
+
+   git checkout -b feat/nom-explicite
+
+   Choisis un nom clair :
+   ✅ feat/add-dark-mode-toggle
+   ❌ feat/test
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ÉTAPE 3 — Coder + commits propres                              │
+└─────────────────────────────────────────────────────────────────┘
+
+   Convention de commits (très importante) :
+
+   feat:     ajout d'une fonctionnalité
+   fix:      correction de bug
+   style:    ajustement visuel
+   docs:     documentation
+   refactor: refactoring sans changement fonctionnel
+   chore:    maintenance (deps, config)
+
+   Exemples :
+      git commit -m "feat: ajout du toggle dark mode dans Settings"
+      git commit -m "fix: correction overflow mobile dashboard"
+      git commit -m "chore: upgrade tailwind 3.4 → 3.5"
+
+   Règle : un commit = une idée. Ne mélange pas plusieurs sujets.
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ÉTAPE 4 — Pousser ta branche                                   │
+└─────────────────────────────────────────────────────────────────┘
+
+   git push -u origin feat/nom-explicite
+
+   (le -u sert à tracker la branche, à faire seulement la 1ère fois)
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ÉTAPE 5 — Ouvrir une Pull Request                              │
+└─────────────────────────────────────────────────────────────────┘
+
+   Méthode A — Avec gh CLI :
+      gh pr create --base dev --fill
+
+   Méthode B — Sur GitHub.com :
+      Après le push, GitHub propose un bouton
+      "Compare & pull request" → clique dessus
+      → base : dev (PAS main)
+      → compare : ta branche
+      → Remplis le template (titre clair + description)
+      → Bouton "Create pull request"
+
+   ⚠️ IMPORTANT : la base de la PR doit être `dev`, pas `main`.
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ ÉTAPE 6 — Attendre la review                                   │
+└─────────────────────────────────────────────────────────────────┘
+
+   Le Lead va lire ton code. 2 cas :
+
+   A. ✅ Approved → la PR est mergée sur dev
+      → tu peux supprimer ta branche locale :
+         git checkout dev
+         git pull origin dev
+         git branch -D feat/nom-explicite
+
+   B. ❌ Changes requested → corrections à faire
+      → lis les commentaires
+      → corrige sur ta branche feat/xxx
+      → git add . && git commit -m "fix: ..."
+      → git push (PAS besoin de re-créer la PR, elle se met à jour auto)
+      → re-demande review au Lead
+
+
+═══════════════════════════════════════════════════════════════════
+ 4. CHECKLIST AVANT D'OUVRIR UNE PR
+═══════════════════════════════════════════════════════════════════
+
+   [ ] npm run build passe sans erreur
+   [ ] Aucun console.log oublié
+   [ ] Aucune valeur en dur (couleurs, tailles, espacements)
+       → utiliser les tokens Tailwind (bg-akili-coral, etc.)
+   [ ] Testé sur mobile (375px) ET desktop (1440px)
+   [ ] États gérés : loading, error, success, hover, focus, disabled
+   [ ] Description claire de la PR (utilise le template)
+   [ ] Pas de .env.local commité
+   [ ] Le CI GitHub Actions est vert (apparaît en bas de la PR)
+
+
+═══════════════════════════════════════════════════════════════════
+ 5. CONVENTIONS DE CODE
+═══════════════════════════════════════════════════════════════════
+
+A. TOKENS TAILWIND (jamais de valeurs en dur)
+
+   ✅ BIEN :
+      <button className="bg-akili-coral text-white rounded-akili">
+
+   ❌ MAL :
+      <button style={{ background: '#FF6B5C', borderRadius: '8px' }}>
+
+B. COMPOSANTS
+
+   - Un composant = un fichier
+   - PascalCase pour les fichiers : Button.jsx
+   - Hooks en useXxx.js
+   - Pas de god-components > 200 lignes
+
+C. ANIMATIONS
+
+   - Toujours Framer Motion (jamais d'animation CSS bricolée)
+   - Easing signature : [0.25, 0.1, 0.25, 1]
+   - Durées : 150ms (micro), 250ms (standard), 400ms (entrée)
+
+D. ERREURS UTILISATEUR (humaines, pas alarmistes)
+
+   ✅ BIEN : "Cet email ne semble pas connu."
+   ❌ MAL : "401 Unauthorized"
+
+E. CHARTE COULEUR
+
+   - Indigo Nuit  #0E1A3E  : autorité, fonds dramatiques
+   - Or Vif       #F2C94C  : highlights, badges premium
+   - Corail Feu   #FF6B5C  : CTA principaux (1 par écran max)
+   - Crème Papyrus #F9F3E6 : fond global (jamais blanc pur)
+   - Charbon      #1A1A1A  : texte (jamais noir pur)
+
+   Règle 60-30-10 :
+      60% papyrus / 30% indigo-charbon / 10% corail-or
+
+
+═══════════════════════════════════════════════════════════════════
+ 6. CÔTÉ LEAD — COMMENT FAIRE UNE REVIEW
+═══════════════════════════════════════════════════════════════════
+
+A. Tu reçois une notif (email + bell GitHub) quand une PR est ouverte.
+
+B. Va sur la PR → onglet "Files changed"
+
+C. Tu peux :
+
+   - 💬 Commenter ligne par ligne
+     → click sur le "+" à côté d'une ligne pour commenter
+     → tu peux suggérer une modif (mode "suggestion")
+       qui peut être acceptée en 1 clic par l'auteur
+
+   - ✅ Approve
+     → bouton "Review changes" en haut à droite
+     → coche "Approve" → "Submit review"
+
+   - ❌ Request changes
+     → bouton "Review changes"
+     → coche "Request changes"
+     → écris ce qui doit être changé → "Submit review"
+
+D. Une fois approuvée, clique "Merge pull request" :
+
+   - 🌟 RECOMMANDÉ : "Squash and merge"
+     → l'historique reste propre (1 commit par PR)
+   - "Create a merge commit" : OK aussi
+   - ⚠️ "Rebase and merge" : pour les pros uniquement
+
+E. Après merge, supprime la branche feature :
+   → bouton "Delete branch" qui apparaît
+   → ça nettoie le repo
+
+
+═══════════════════════════════════════════════════════════════════
+ 7. COMMANDES GIT UTILES
+═══════════════════════════════════════════════════════════════════
+
+# Voir l'état actuel
+git status
+
+# Voir l'historique
+git log --oneline -10
+
+# Voir ce qui a changé
+git diff
+
+# Annuler un fichier modifié (avant commit)
+git checkout -- src/components/Button.jsx
+
+# Annuler le dernier commit (mais garder les changements)
+git reset --soft HEAD~1
+
+# Récupérer la dernière version de dev sans perdre tes changements
+git stash                    # mettre tes changements de côté
+git checkout dev
+git pull origin dev
+git checkout feat/ma-branche
+git merge dev                # ou : git rebase dev
+git stash pop                # remettre tes changements
+
+# Si tu as poussé sur la mauvaise branche par erreur
+# 🚨 Ne fais RIEN, contacte le Lead immédiatement
+
+# Voir les branches
+git branch                   # locales
+git branch -r                # remotes (sur GitHub)
+git branch -a                # toutes
+
+# Supprimer une branche locale
+git branch -D feat/old-branch
+
+# Récupérer une branche d'un autre dev
+git fetch origin
+git checkout feat/sa-branche
+
+
+═══════════════════════════════════════════════════════════════════
+ 8. COMMANDES GH (GITHUB CLI) UTILES
+═══════════════════════════════════════════════════════════════════
+
+# Voir les PR ouvertes
+gh pr list
+
+# Voir la PR sur laquelle tu es
+gh pr view
+
+# Créer une PR
+gh pr create --base dev --fill
+
+# Checkout une PR pour la tester localement
+gh pr checkout 42
+
+# Voir les CI status
+gh pr checks
+
+# Voir les commentaires d'une PR
+gh pr view 42 --comments
+
+# Voir les issues
+gh issue list
+
+# Créer une issue
+gh issue create --title "Bug: ..." --body "..."
+
+
+═══════════════════════════════════════════════════════════════════
+ 9. PROBLÈMES FRÉQUENTS — QUE FAIRE ?
+═══════════════════════════════════════════════════════════════════
+
+❓ "J'ai des conflits Git lors du merge"
+   → git merge dev (sur ta branche)
+   → Git ouvre les fichiers en conflit (cherche <<<<<<<)
+   → Résous manuellement (garde les bonnes lignes)
+   → git add <fichier-résolu>
+   → git commit (le message est pré-rempli)
+
+❓ "Le CI GitHub Actions est rouge"
+   → Click sur "Details" dans la PR pour voir l'erreur
+   → Souvent : import manquant, syntaxe cassée, build qui plante
+   → Fix sur ta branche, push à nouveau, le CI re-tourne
+
+❓ "Je dois récupérer une version stable de dev"
+   git checkout dev
+   git pull origin dev
+
+❓ "J'ai push sur main par erreur" (NE LE FAIS PAS, mais...)
+   🚨 Contacte le Lead IMMÉDIATEMENT
+   → Il fera un revert manuel
+
+❓ "Je veux tester la branche d'un teammate"
+   git fetch origin
+   git checkout feat/sa-branche
+   npm install   # au cas où il a ajouté des deps
+   npm run dev
+
+❓ "Mon npm run dev ne marche pas"
+   → rm -rf node_modules package-lock.json
+   → npm install
+   → npm run dev
+
+❓ "J'ai oublié sur quelle branche je suis"
+   git branch
+   (l'étoile * indique la branche active)
+
+
+═══════════════════════════════════════════════════════════════════
+ 10. URLS IMPORTANTES
+═══════════════════════════════════════════════════════════════════
+
+Repo :
+   https://github.com/JOJODEVS-GIT/akili-web
+
+Pull Requests :
+   https://github.com/JOJODEVS-GIT/akili-web/pulls
+
+Issues :
+   https://github.com/JOJODEVS-GIT/akili-web/issues
+
+CI / Actions :
+   https://github.com/JOJODEVS-GIT/akili-web/actions
+
+Settings (Lead uniquement) :
+   https://github.com/JOJODEVS-GIT/akili-web/settings
+
+Collaborators (Lead uniquement) :
+   https://github.com/JOJODEVS-GIT/akili-web/settings/access
+
+
+═══════════════════════════════════════════════════════════════════
+ 11. PRINCIPES GÉNÉRAUX
+═══════════════════════════════════════════════════════════════════
+
+1. EN CAS DE DOUTE → DEMANDER
+   Mieux vaut perdre 5 min à demander qu'1 heure à reverser.
+
+2. PETITES PR > GROSSES PR
+   Une PR de 50 lignes se review en 5 min.
+   Une PR de 800 lignes se review pas (le Lead va râler).
+   Découpe ton travail en petits incréments.
+
+3. UN COMMIT = UNE IDÉE
+   Pas de commit "WIP" ou "stuff". Chaque commit doit raconter
+   une étape claire.
+
+4. LE LEAD A LE DERNIER MOT SUR LE CODE PRODUIT
+   Tu peux suggérer, débattre, mais le Lead arbitre les choix
+   architecturaux. Ce n'est pas personnel.
+
+5. CODE REVIEW = ÉCHANGE, PAS COMBAT
+   Sois bienveillant en review (côté reviewer ET reviewé).
+   On apprend tous les uns des autres.
+
+6. SECRETS = JAMAIS COMMIT
+   Pas de mot de passe, clé API, token dans le code.
+   Toujours via .env.local (qui est dans .gitignore).
+
+7. RESPECTE LES TOKENS DE LA CHARTE
+   La charte "Nuit & Lumière" est sacrée. Pas de freestyle
+   sur les couleurs, l'espacement ou la typo.
+
+
+═══════════════════════════════════════════════════════════════════
+ 12. QUICK REFERENCE — LES 5 COMMANDES À RETENIR
+═══════════════════════════════════════════════════════════════════
+
+# Démarrer une nouvelle feature
+git checkout dev && git pull && git checkout -b feat/xxx
+
+# Sauvegarder ton travail
+git add . && git commit -m "feat: ..." && git push
+
+# Ouvrir la PR (1ère fois après push)
+gh pr create --base dev --fill
+
+# Mettre à jour ta branche avec dev
+git checkout feat/xxx && git merge dev
+
+# Récupérer le dev à jour après un merge
+git checkout dev && git pull origin dev
+
+
+═══════════════════════════════════════════════════════════════════
+ 13. CONTACTS
+═══════════════════════════════════════════════════════════════════
+
+Lead Dev : JOJODEVS-GIT
+Communication : [Slack/Discord/WhatsApp à compléter]
+
+Questions techniques : ouvre une issue GitHub
+Questions générales : message direct au Lead
+
+
+═══════════════════════════════════════════════════════════════════
+ Akili — La sagesse qui se lève. La sagesse partagée monte plus haut.
+ Bon code, bon hackathon, et amusez-vous.
+═══════════════════════════════════════════════════════════════════
