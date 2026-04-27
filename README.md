@@ -147,7 +147,6 @@ git push -u origin feat/ma-feature
 ## 🤝 Crédits
 
 Hackathon **EIG × Akili** · Cotonou.
-Design system généré sur **claude.ai/design**.
 Implémentation par l'équipe Dev.
 
 > **Akili — Nuit & Lumière. La sagesse qui se lève.**
