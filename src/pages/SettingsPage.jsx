@@ -1,25 +1,79 @@
-import { useState } from 'react';
-import {
-  Bell, Lock, Globe, CreditCard, Shield, Trash2, Moon,
-} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Bell, Lock, Globe, CreditCard, Shield, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { useToast } from '@/components/ui/Toast';
 import { useConfirm } from '@/components/ui/ConfirmDialog';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/cn';
+
+const DEFAULT_NOTIFICATIONS = { email: true, push: false, weekly_digest: true };
+
+const PLAN_LABEL = {
+  atelier: { name: 'Atelier', tagline: 'Gratuit · jusqu\'à 5 automatisations' },
+  pro:     { name: 'Pro',     tagline: 'Automatisations illimitées · 12€/mois' },
+  team:    { name: 'Team',    tagline: 'Multi-utilisateurs · 29€/mois par siège' },
+};
 
 export default function SettingsPage() {
   const { toast } = useToast();
   const confirm = useConfirm();
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { profile, updateProfile, signOut, resetPassword, user } = useAuth();
 
-  const [notif, setNotif] = useState({ email: true, push: false, weeklyDigest: true });
+  const [notif, setNotif] = useState(DEFAULT_NOTIFICATIONS);
   const [twoFA, setTwoFA] = useState(false);
+  const [savingNotif, setSavingNotif] = useState(false);
+
+  // Sync depuis le profile.
+  useEffect(() => {
+    if (!profile) return;
+    setNotif({
+      ...DEFAULT_NOTIFICATIONS,
+      ...(profile.settings?.notifications || {}),
+    });
+    setTwoFA(!!profile.two_factor_enabled);
+  }, [profile]);
+
+  const persistNotif = async (next) => {
+    setNotif(next);
+    setSavingNotif(true);
+    const settings = { ...(profile?.settings || {}), notifications: next };
+    const { error } = await updateProfile({ settings });
+    setSavingNotif(false);
+    if (error) {
+      toast({ type: 'error', title: 'Sauvegarde échouée', description: error.message });
+    }
+  };
+
+  const toggle2FA = async () => {
+    const target = !twoFA;
+    setTwoFA(target);
+    const { error } = await updateProfile({ two_factor_enabled: target });
+    if (error) {
+      setTwoFA(!target);
+      toast({ type: 'error', title: 'Échec', description: error.message });
+      return;
+    }
+    toast({
+      type: 'success',
+      title: target ? '2FA activée' : '2FA désactivée',
+      description: target ? 'Bien joué. Ton compte est plus sûr.' : 'À toi de voir, mais on conseille de la garder.',
+    });
+  };
+
+  const handleChangePassword = async () => {
+    if (!user?.email) return;
+    const { error } = await resetPassword(user.email);
+    if (error) {
+      toast({ type: 'error', title: 'Échec', description: error.message });
+      return;
+    }
+    toast({ type: 'success', title: 'Lien envoyé', description: 'Un email pour changer ton mot de passe est en route.' });
+  };
 
   const handleDeleteAccount = async () => {
     const ok = await confirm({
@@ -29,11 +83,18 @@ export default function SettingsPage() {
       cancelLabel: 'Annuler',
       danger: true,
     });
-    if (ok) {
-      toast({ type: 'success', title: 'Compte supprimé', description: 'À bientôt peut-être.' });
-      setTimeout(() => { logout(); navigate('/'); }, 1200);
-    }
+    if (!ok) return;
+    // V1 : la suppression du user auth nécessite un endpoint backend (service_role).
+    // En attendant, on déconnecte simplement et on prévient.
+    toast({
+      type: 'info',
+      title: 'Demande enregistrée',
+      description: 'Notre équipe va supprimer définitivement ton compte sous 48 h. Tu reçois un email à la fin.',
+    });
+    setTimeout(() => { signOut(); navigate('/'); }, 1500);
   };
+
+  const plan = PLAN_LABEL[profile?.plan] || PLAN_LABEL.atelier;
 
   return (
     <DashboardLayout>
@@ -51,27 +112,30 @@ export default function SettingsPage() {
         <Section Icon={Bell} title="Notifications" desc="Choisis comment Akili te tient au courant.">
           <Toggle
             label="Emails de notification"
-            help="Receive un mail quand une auto échoue ou termine."
+            help="Reçois un mail quand une auto échoue ou termine."
             value={notif.email}
-            onChange={(v) => setNotif({ ...notif, email: v })}
+            disabled={savingNotif}
+            onChange={(v) => persistNotif({ ...notif, email: v })}
           />
           <Toggle
             label="Notifications push (navigateur)"
             help="Alertes en temps réel sur ton browser."
             value={notif.push}
-            onChange={(v) => setNotif({ ...notif, push: v })}
+            disabled={savingNotif}
+            onChange={(v) => persistNotif({ ...notif, push: v })}
           />
           <Toggle
             label="Digest hebdomadaire"
             help="Un récap chaque dimanche soir."
-            value={notif.weeklyDigest}
-            onChange={(v) => setNotif({ ...notif, weeklyDigest: v })}
+            value={notif.weekly_digest}
+            disabled={savingNotif}
+            onChange={(v) => persistNotif({ ...notif, weekly_digest: v })}
           />
         </Section>
 
         {/* Sécurité */}
         <Section Icon={Lock} title="Sécurité" desc="Protège ton compte avec les bonnes pratiques.">
-          <div className="flex items-start justify-between gap-4 py-3.5 border-b border-akili-line last:border-b-0">
+          <div className="flex items-start justify-between gap-4 py-3.5 border-b border-akili-line">
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <span className="font-display font-bold text-sm">Authentification à deux facteurs</span>
@@ -84,14 +148,7 @@ export default function SettingsPage() {
             <Button
               size="sm"
               variant={twoFA ? 'outline' : 'primary'}
-              onClick={() => {
-                setTwoFA(!twoFA);
-                toast({
-                  type: 'success',
-                  title: twoFA ? '2FA désactivée' : '2FA activée',
-                  description: twoFA ? 'À toi de voir, mais on conseille de la garder.' : 'Bien joué. Ton compte est plus sûr.',
-                });
-              }}
+              onClick={toggle2FA}
             >
               {twoFA ? 'Désactiver' : 'Activer'}
             </Button>
@@ -100,10 +157,10 @@ export default function SettingsPage() {
             <div className="flex-1">
               <div className="font-display font-bold text-sm">Mot de passe</div>
               <p className="text-xs text-akili-charbon-mute mt-1">
-                Dernière modification il y a 3 mois. Pense à le changer régulièrement.
+                On t'envoie un lien sécurisé pour le changer en deux clics.
               </p>
             </div>
-            <Button size="sm" variant="outline" onClick={() => toast({ type: 'info', title: 'Lien envoyé', description: 'Un email pour changer ton mot de passe est en route.' })}>
+            <Button size="sm" variant="outline" onClick={handleChangePassword}>
               Changer
             </Button>
           </div>
@@ -111,8 +168,8 @@ export default function SettingsPage() {
 
         {/* Préférences */}
         <Section Icon={Globe} title="Préférences" desc="Langue, fuseau, apparence.">
-          <Row label="Langue" value="Français" onClick={() => toast({ type: 'info', title: 'Bientôt', description: 'Anglais et swahili arrivent en V2.' })} />
-          <Row label="Fuseau horaire" value="Africa/Cotonou (UTC+1)" onClick={() => toast({ type: 'info', title: 'Bientôt' })} />
+          <Row label="Langue" value={langLabel(profile?.language)} onClick={() => toast({ type: 'info', title: 'Bientôt', description: 'Anglais et swahili arrivent en V2.' })} />
+          <Row label="Fuseau horaire" value={profile?.timezone || 'Africa/Cotonou'} onClick={() => toast({ type: 'info', title: 'Bientôt' })} />
           <Row label="Format de date" value="DD MMMM YYYY" onClick={() => toast({ type: 'info', title: 'Bientôt' })} />
         </Section>
 
@@ -121,12 +178,14 @@ export default function SettingsPage() {
           <div className="p-4 rounded-akili bg-akili-papyrus-warm border border-akili-line">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
-                <div className="font-display font-extrabold text-base">Plan Atelier</div>
-                <p className="text-xs text-akili-charbon-mute mt-0.5">Gratuit · jusqu'à 5 automatisations</p>
+                <div className="font-display font-extrabold text-base">Plan {plan.name}</div>
+                <p className="text-xs text-akili-charbon-mute mt-0.5">{plan.tagline}</p>
               </div>
-              <Button size="sm" variant="or" onClick={() => toast({ type: 'success', title: 'Bienvenue chez les Pros', description: '14 jours gratuits, on te facture après.' })}>
-                Passer Pro
-              </Button>
+              {profile?.plan !== 'pro' && profile?.plan !== 'team' && (
+                <Button size="sm" variant="or" onClick={() => toast({ type: 'success', title: 'Bienvenue chez les Pros', description: '14 jours gratuits, on te facture après.' })}>
+                  Passer Pro
+                </Button>
+              )}
             </div>
           </div>
         </Section>
@@ -159,6 +218,13 @@ export default function SettingsPage() {
   );
 }
 
+function langLabel(code) {
+  if (!code || code === 'fr') return 'Français';
+  if (code === 'en') return 'English';
+  if (code === 'sw') return 'Kiswahili';
+  return code;
+}
+
 function Section({ Icon, title, desc, children }) {
   return (
     <Card variant="flat" padding="lg">
@@ -176,7 +242,7 @@ function Section({ Icon, title, desc, children }) {
   );
 }
 
-function Toggle({ label, help, value, onChange }) {
+function Toggle({ label, help, value, onChange, disabled }) {
   return (
     <div className="flex items-start justify-between gap-4 py-3 border-b border-akili-line last:border-b-0">
       <div className="flex-1">
@@ -185,10 +251,12 @@ function Toggle({ label, help, value, onChange }) {
       </div>
       <button
         type="button"
-        onClick={() => onChange(!value)}
+        onClick={() => !disabled && onChange(!value)}
+        disabled={disabled}
         className={cn(
           'relative w-11 h-6 rounded-full transition-colors duration-200',
-          value ? 'bg-akili-coral' : 'bg-akili-papyrus-deep'
+          value ? 'bg-akili-coral' : 'bg-akili-papyrus-deep',
+          disabled && 'opacity-50 cursor-not-allowed'
         )}
         role="switch"
         aria-checked={value}

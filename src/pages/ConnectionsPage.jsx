@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  CheckCircle2, AlertTriangle, Plus, KeyRound, Webhook,
+  CheckCircle2, AlertTriangle, Plus, KeyRound, Webhook, Loader2,
   Mail, FolderOpen, CreditCard, Github, MessageSquare,
   FileText, Database, ListTodo, Calendar, Cloud,
 } from 'lucide-react';
@@ -13,26 +13,30 @@ import { Modal } from '@/components/ui/Modal';
 import { useDisclosure } from '@/hooks/useDisclosure';
 import { useToast } from '@/components/ui/Toast';
 import { useConfirm } from '@/components/ui/ConfirmDialog';
+import { useAuth } from '@/contexts/AuthContext';
+import { useConnections } from '@/hooks/useConnections';
 import { cn } from '@/lib/cn';
 
-const INTEGRATIONS = [
-  { id: 'gmail',    name: 'Gmail',         Icon: Mail,         color: '#EA4335', desc: 'Lire, envoyer, trier des emails',          status: 'connected',    account: 'aicha@studio.io',     uses: 3 },
-  { id: 'drive',    name: 'Google Drive',  Icon: FolderOpen,   color: '#1FA463', desc: 'Stocker et organiser tes fichiers',         status: 'connected',    account: 'aicha@studio.io',     uses: 4 },
-  { id: 'stripe',   name: 'Stripe',        Icon: CreditCard,   color: '#635BFF', desc: 'Paiements, abonnements, factures',           status: 'connected',    account: 'studio_test',         uses: 2 },
-  { id: 'github',   name: 'GitHub',        Icon: Github,       color: '#171515', desc: 'Repos, issues, déploiements',                status: 'expired',      account: 'aicha-dev',           uses: 1 },
-  { id: 'slack',    name: 'Slack',         Icon: MessageSquare,color: '#4A154B', desc: 'Notifications, alertes équipe',              status: 'connected',    account: 'studio-cotonou',      uses: 3 },
-  { id: 'notion',   name: 'Notion',        Icon: FileText,     color: '#000000', desc: 'Bases de données, docs, knowledge',          status: 'connected',    account: 'Aïcha\'s workspace',  uses: 2 },
-  { id: 'calendar', name: 'Calendar',      Icon: Calendar,     color: '#4285F4', desc: 'Agenda, planification, rappels',             status: 'available',    account: null,                  uses: 0 },
-  { id: 'sheets',   name: 'Sheets',        Icon: ListTodo,     color: '#1FA463', desc: 'Tableurs en lecture/écriture',                status: 'available',    account: null,                  uses: 0 },
-  { id: 'discord',  name: 'Discord',       Icon: MessageSquare,color: '#5865F2', desc: 'Bots, alertes communautaires',                status: 'available',    account: null,                  uses: 0 },
-  { id: 'postgres', name: 'PostgreSQL',    Icon: Database,     color: '#336791', desc: 'BDD relationnelle, backups',                  status: 'available',    account: null,                  uses: 0 },
-  { id: 's3',       name: 'AWS S3',        Icon: Cloud,        color: '#FF9900', desc: 'Stockage cloud, archives',                    status: 'available',    account: null,                  uses: 0 },
-  { id: 'webhook',  name: 'Webhook',       Icon: Webhook,      color: '#0E1A3E', desc: 'Reçois n\'importe quel événement HTTP',      status: 'available',    account: null,                  uses: 0 },
+// Catalogue statique des intégrations supportées (metadata UI, pas en BDD).
+const PROVIDERS = [
+  { id: 'gmail',    name: 'Gmail',         Icon: Mail,         color: '#EA4335', desc: 'Lire, envoyer, trier des emails' },
+  { id: 'drive',    name: 'Google Drive',  Icon: FolderOpen,   color: '#1FA463', desc: 'Stocker et organiser tes fichiers' },
+  { id: 'stripe',   name: 'Stripe',        Icon: CreditCard,   color: '#635BFF', desc: 'Paiements, abonnements, factures' },
+  { id: 'github',   name: 'GitHub',        Icon: Github,       color: '#171515', desc: 'Repos, issues, déploiements' },
+  { id: 'slack',    name: 'Slack',         Icon: MessageSquare,color: '#4A154B', desc: 'Notifications, alertes équipe' },
+  { id: 'notion',   name: 'Notion',        Icon: FileText,     color: '#000000', desc: 'Bases de données, docs, knowledge' },
+  { id: 'calendar', name: 'Calendar',      Icon: Calendar,     color: '#4285F4', desc: 'Agenda, planification, rappels' },
+  { id: 'sheets',   name: 'Sheets',        Icon: ListTodo,     color: '#1FA463', desc: 'Tableurs en lecture/écriture' },
+  { id: 'discord',  name: 'Discord',       Icon: MessageSquare,color: '#5865F2', desc: 'Bots, alertes communautaires' },
+  { id: 'postgres', name: 'PostgreSQL',    Icon: Database,     color: '#336791', desc: 'BDD relationnelle, backups' },
+  { id: 's3',       name: 'AWS S3',        Icon: Cloud,        color: '#FF9900', desc: 'Stockage cloud, archives' },
+  { id: 'webhook',  name: 'Webhook',       Icon: Webhook,      color: '#0E1A3E', desc: 'Reçois n\'importe quel événement HTTP' },
 ];
 
 const STATUS_CONFIG = {
-  connected: { label: 'Connectée', dot: 'bg-akili-success', text: 'text-akili-success' },
-  expired:   { label: 'Expirée',   dot: 'bg-akili-warning', text: 'text-akili-warning' },
+  connected: { label: 'Connectée', dot: 'bg-akili-success',      text: 'text-akili-success' },
+  expired:   { label: 'Expirée',   dot: 'bg-akili-warning',      text: 'text-akili-warning' },
+  revoked:   { label: 'Révoquée',  dot: 'bg-akili-error',        text: 'text-akili-error' },
   available: { label: 'Disponible',dot: 'bg-akili-charbon-mute', text: 'text-akili-charbon-mute' },
 };
 
@@ -42,55 +46,83 @@ const TABS = [
   { id: 'available',  label: 'Disponibles' },
 ];
 
+// Fusionne les providers du catalogue avec l'état BDD réel.
+function buildIntegrations(connections) {
+  return PROVIDERS.map((p) => {
+    const conn = connections.find((c) => c.provider === p.id);
+    if (!conn) {
+      return { ...p, status: 'available', account: null, connectionId: null };
+    }
+    return {
+      ...p,
+      status: conn.status,
+      account: conn.account_label,
+      connectionId: conn.id,
+    };
+  });
+}
+
 export default function ConnectionsPage() {
+  const { user } = useAuth();
+  const { items: connections, loading, connect, disconnect } = useConnections();
   const [tab, setTab] = useState('all');
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState(null);
+  const [busy, setBusy] = useState(false);
   const apiKeysModal = useDisclosure();
   const { toast } = useToast();
   const confirm = useConfirm();
-  const [integrationsState, setIntegrationsState] = useState(INTEGRATIONS);
 
-  const handleConnect = (int) => {
+  const integrations = useMemo(() => buildIntegrations(connections), [connections]);
+
+  const handleConnect = async (int) => {
+    setBusy(true);
     toast({ type: 'info', title: 'Connexion en cours...', description: `OAuth avec ${int.name}.` });
-    setTimeout(() => {
-      setIntegrationsState((prev) =>
-        prev.map((i) => i.id === int.id ? { ...i, status: 'connected', account: 'aicha@studio.io' } : i)
-      );
-      toast({ type: 'success', title: `${int.name} connecté`, description: 'Tu peux maintenant l\'utiliser dans tes automatisations.' });
-      setSelected(null);
-    }, 1500);
+    // V1 : pas de vraie OAuth — on simule la connexion en insérant directement.
+    const accountLabel = user?.email || `compte_${int.id}`;
+    const { error } = await connect({ provider: int.id, accountLabel });
+    setBusy(false);
+    if (error) {
+      toast({ type: 'error', title: 'Connexion échouée', description: error.message });
+      return;
+    }
+    toast({ type: 'success', title: `${int.name} connecté`, description: 'Tu peux maintenant l\'utiliser dans tes automatisations.' });
+    setSelected(null);
   };
 
   const handleDisconnect = async (int) => {
+    if (!int.connectionId) return;
     const ok = await confirm({
       title: `Déconnecter ${int.name} ?`,
-      description: int.uses > 0
-        ? `${int.uses} automatisation${int.uses > 1 ? 's' : ''} utilise${int.uses > 1 ? 'nt' : ''} cette connexion. Elles seront mises en pause.`
-        : 'Tu pourras la reconnecter à tout moment.',
+      description: 'Tu pourras la reconnecter à tout moment.',
       confirmLabel: 'Déconnecter',
       danger: true,
     });
-    if (ok) {
-      setIntegrationsState((prev) =>
-        prev.map((i) => i.id === int.id ? { ...i, status: 'available', account: null, uses: 0 } : i)
-      );
-      toast({ type: 'success', title: `${int.name} déconnecté` });
-      setSelected(null);
+    if (!ok) return;
+    setBusy(true);
+    const { error } = await disconnect(int.connectionId);
+    setBusy(false);
+    if (error) {
+      toast({ type: 'error', title: 'Échec', description: error.message });
+      return;
     }
+    toast({ type: 'success', title: `${int.name} déconnecté` });
+    setSelected(null);
   };
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return integrationsState.filter((i) => {
+    return integrations.filter((i) => {
       if (tab === 'connected' && i.status !== 'connected' && i.status !== 'expired') return false;
       if (tab === 'available' && i.status !== 'available') return false;
       if (q && !`${i.name} ${i.desc}`.toLowerCase().includes(q)) return false;
       return true;
     });
-  }, [query, tab, integrationsState]);
+  }, [query, tab, integrations]);
 
-  const connectedCount = integrationsState.filter((i) => i.status === 'connected').length;
+  const connectedCount = integrations.filter((i) => i.status === 'connected').length;
+  const expiredCount = integrations.filter((i) => i.status === 'expired').length;
+  const availableCount = integrations.filter((i) => i.status === 'available').length;
 
   return (
     <DashboardLayout query={query} onQueryChange={setQuery}>
@@ -111,30 +143,9 @@ export default function ConnectionsPage() {
 
       {/* Stats inline */}
       <div className="mt-6 flex flex-wrap gap-6 text-sm">
-        <div>
-          <div className="text-[11px] uppercase tracking-wider text-akili-charbon-mute font-bold">
-            Connectées
-          </div>
-          <div className="font-display font-extrabold text-2xl text-akili-success mt-1">
-            {connectedCount} <span className="text-akili-charbon-mute font-mono text-base font-medium">/ {INTEGRATIONS.length}</span>
-          </div>
-        </div>
-        <div>
-          <div className="text-[11px] uppercase tracking-wider text-akili-charbon-mute font-bold">
-            Expirées
-          </div>
-          <div className="font-display font-extrabold text-2xl text-akili-warning mt-1">
-            {INTEGRATIONS.filter((i) => i.status === 'expired').length}
-          </div>
-        </div>
-        <div>
-          <div className="text-[11px] uppercase tracking-wider text-akili-charbon-mute font-bold">
-            Disponibles
-          </div>
-          <div className="font-display font-extrabold text-2xl mt-1">
-            {INTEGRATIONS.filter((i) => i.status === 'available').length}
-          </div>
-        </div>
+        <InlineStat label="Connectées" value={connectedCount} total={PROVIDERS.length} accent="success" />
+        <InlineStat label="Expirées" value={expiredCount} accent="warning" />
+        <InlineStat label="Disponibles" value={availableCount} />
       </div>
 
       {/* Tabs */}
@@ -156,18 +167,25 @@ export default function ConnectionsPage() {
       </div>
 
       {/* Grid */}
-      <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((int, i) => (
-          <motion.div
-            key={int.id}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.04, duration: 0.3 }}
-          >
-            <IntegrationCard integration={int} onClick={() => setSelected(int)} />
-          </motion.div>
-        ))}
-      </div>
+      {loading ? (
+        <Card variant="flat" padding="lg" className="mt-5 flex items-center justify-center gap-3 text-akili-charbon-mute">
+          <Loader2 size={18} className="animate-spin" />
+          <span className="text-sm">On charge tes connexions...</span>
+        </Card>
+      ) : (
+        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filtered.map((int, i) => (
+            <motion.div
+              key={int.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.04, duration: 0.3 }}
+            >
+              <IntegrationCard integration={int} onClick={() => setSelected(int)} />
+            </motion.div>
+          ))}
+        </div>
+      )}
 
       {/* Detail modal */}
       <Modal
@@ -180,6 +198,7 @@ export default function ConnectionsPage() {
         {selected && (
           <IntegrationDetail
             integration={selected}
+            busy={busy}
             onClose={() => setSelected(null)}
             onConnect={() => handleConnect(selected)}
             onDisconnect={() => handleDisconnect(selected)}
@@ -201,9 +220,29 @@ export default function ConnectionsPage() {
   );
 }
 
+function InlineStat({ label, value, total, accent }) {
+  const colors = {
+    success: 'text-akili-success',
+    warning: 'text-akili-warning',
+  };
+  return (
+    <div>
+      <div className="text-[11px] uppercase tracking-wider text-akili-charbon-mute font-bold">
+        {label}
+      </div>
+      <div className={cn('font-display font-extrabold text-2xl mt-1', accent && colors[accent])}>
+        {value}
+        {total !== undefined && (
+          <span className="text-akili-charbon-mute font-mono text-base font-medium"> / {total}</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function IntegrationCard({ integration, onClick }) {
-  const { Icon, name, desc, status, account, uses, color } = integration;
-  const sc = STATUS_CONFIG[status];
+  const { Icon, name, desc, status, account, color } = integration;
+  const sc = STATUS_CONFIG[status] || STATUS_CONFIG.available;
   const isAvailable = status === 'available';
 
   return (
@@ -244,11 +283,6 @@ function IntegrationCard({ integration, onClick }) {
         ) : (
           <span className="text-akili-charbon-mute">Pas encore connectée</span>
         )}
-        {uses > 0 && (
-          <span className="font-mono text-akili-charbon-soft">
-            {uses} auto{uses > 1 ? 's' : ''}
-          </span>
-        )}
       </div>
 
       <Button
@@ -264,9 +298,9 @@ function IntegrationCard({ integration, onClick }) {
   );
 }
 
-function IntegrationDetail({ integration, onClose, onConnect, onDisconnect }) {
-  const { name, status, account, uses, color, Icon } = integration;
-  const sc = STATUS_CONFIG[status];
+function IntegrationDetail({ integration, busy, onClose, onConnect, onDisconnect }) {
+  const { name, status, account, color, Icon } = integration;
+  const sc = STATUS_CONFIG[status] || STATUS_CONFIG.available;
 
   return (
     <div className="space-y-5">
@@ -309,20 +343,9 @@ function IntegrationDetail({ integration, onClose, onConnect, onDisconnect }) {
         </ul>
       </div>
 
-      <div>
-        <div className="text-[11px] uppercase tracking-wider text-akili-charbon-mute font-bold mb-2">
-          Utilisée par
-        </div>
-        <p className="text-sm text-akili-charbon-soft">
-          {uses === 0
-            ? 'Aucune automatisation pour l\'instant.'
-            : `${uses} automatisation${uses > 1 ? 's' : ''} active${uses > 1 ? 's' : ''}.`}
-        </p>
-      </div>
-
       <div className="flex justify-between gap-3 pt-4 border-t border-akili-line">
         {status === 'available' ? (
-          <Button variant="primary" iconLeft={<Plus size={16} />} fullWidth onClick={onConnect}>
+          <Button variant="primary" iconLeft={<Plus size={16} />} fullWidth loading={busy} onClick={onConnect}>
             Connecter {name}
           </Button>
         ) : (
@@ -331,6 +354,7 @@ function IntegrationDetail({ integration, onClose, onConnect, onDisconnect }) {
             <Button
               variant="outline"
               className="text-akili-error border-akili-error hover:bg-akili-coral-50"
+              loading={busy}
               onClick={onDisconnect}
             >
               Déconnecter

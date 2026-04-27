@@ -1,6 +1,10 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { LayoutGrid, List, Plus, Sparkles, Filter } from 'lucide-react';
+import {
+  LayoutGrid, List, Plus, Sparkles, Filter, Loader2, Inbox,
+  FolderTree, Mail as MailIcon, FileText as FileTextIcon, Workflow,
+  MessageCircle, Rocket, Zap,
+} from 'lucide-react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -8,6 +12,7 @@ import { Badge } from '@/components/ui/Badge';
 import { NewAutomationModal } from '@/components/dashboard/NewAutomationModal';
 import { useDisclosure } from '@/hooks/useDisclosure';
 import { useToast } from '@/components/ui/Toast';
+import { useAutomations } from '@/hooks/useAutomations';
 import { TEMPLATES, CATEGORIES } from '@/data/templates';
 import { cn } from '@/lib/cn';
 
@@ -16,43 +21,110 @@ const TABS = [
   { id: 'templates', label: 'Marketplace' },
 ];
 
+// Map des icônes par category (pour les automations qui n'ont pas de template_id)
+const CATEGORY_ICON = {
+  files:         FolderTree,
+  email:         MailIcon,
+  invoicing:     FileTextIcon,
+  calendar:      Workflow,
+  communication: MessageCircle,
+  devops:        Rocket,
+  other:         Zap,
+};
+
+// Adapte une automation Supabase au format attendu par TemplateCard/Row.
+function adaptAutomation(a) {
+  // Si l'automation vient d'un template, on retrouve ses metadata (Icon, integrations, savings).
+  const template = a.template_id ? TEMPLATES.find((t) => t.id === a.template_id) : null;
+  return {
+    id: a.id,
+    Icon: template?.Icon || CATEGORY_ICON[a.category] || Zap,
+    category: a.category || 'other',
+    name: a.name,
+    desc: a.description || template?.desc || '',
+    integrations: template?.integrations || [],
+    savings: a.estimated_savings_hours
+      ? `${a.estimated_savings_hours} h/mois`
+      : (template?.savings || '— à mesurer'),
+    status: a.status,
+  };
+}
+
 export default function AutomationsPage() {
   const [tab, setTab] = useState('mine');
-  const [view, setView] = useState('grid'); // grid | list
+  const [view, setView] = useState('grid');
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
   const newModal = useDisclosure();
   const { toast } = useToast();
+  const { items, loading, create } = useAutomations();
+  const [installing, setInstalling] = useState(null);
 
-  const handleInstall = (template) => {
+  const handleInstall = async (template) => {
+    setInstalling(template.id);
+    const { error } = await create({
+      template_id: template.id,
+      name: template.name,
+      description: template.desc,
+      category: template.category,
+      status: 'brouillon',
+      estimated_savings_hours: 0,
+    });
+    setInstalling(null);
+    if (error) {
+      toast({ type: 'error', title: 'Installation échouée', description: error.message });
+      return;
+    }
     toast({
       type: 'success',
       title: 'Template installé',
       description: `« ${template.name} » est dans tes automatisations.`,
     });
+    setTab('mine');
   };
 
-  const handleConfigure = (template) => {
+  const handleConfigure = (item) => {
     toast({
       type: 'info',
       title: 'Configuration',
-      description: `Modal de config pour « ${template.name} » — bientôt en V2.`,
+      description: `Modal de config pour « ${item.name} » — bientôt en V2.`,
     });
   };
 
-  // Mes automatisations = sous-ensemble des templates pour la démo
-  const myAutomations = TEMPLATES.slice(0, 5);
+  const handleCreate = async ({ template, name }) => {
+    const { error } = await create({
+      template_id: template.id,
+      name,
+      description: template.desc,
+      category: template.category,
+      status: 'brouillon',
+      estimated_savings_hours: 0,
+    });
+    if (error) {
+      toast({ type: 'error', title: 'Création échouée', description: error.message });
+      return;
+    }
+    setTab('mine');
+    toast({ type: 'success', title: 'Automatisation créée', description: `« ${name} » est prête à tourner.` });
+  };
 
-  const items = tab === 'mine' ? myAutomations : TEMPLATES;
+  // Source items selon l'onglet
+  const sourceItems = useMemo(() => {
+    if (tab === 'templates') return TEMPLATES;
+    return items.map(adaptAutomation);
+  }, [tab, items]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return items.filter((t) => {
+    return sourceItems.filter((t) => {
       if (category !== 'all' && t.category !== category) return false;
       if (q && !`${t.name} ${t.desc}`.toLowerCase().includes(q)) return false;
       return true;
     });
-  }, [items, query, category]);
+  }, [sourceItems, query, category]);
+
+  const isMine = tab === 'mine';
+  const isLoadingMine = isMine && loading;
 
   return (
     <DashboardLayout query={query} onQueryChange={setQuery}>
@@ -75,6 +147,7 @@ export default function AutomationsPage() {
       <div className="mt-8 flex flex-wrap items-center gap-2 border-b border-akili-line">
         {TABS.map((t) => {
           const isActive = tab === t.id;
+          const count = t.id === 'templates' ? TEMPLATES.length : items.length;
           return (
             <button
               key={t.id}
@@ -87,9 +160,9 @@ export default function AutomationsPage() {
               )}
             >
               {t.label}
-              {t.id === 'templates' && (
-                <Badge variant="or" className="ml-2">
-                  {TEMPLATES.length}
+              {!isLoadingMine && (
+                <Badge variant={t.id === 'templates' ? 'or' : 'neutral'} className="ml-2">
+                  {count}
                 </Badge>
               )}
             </button>
@@ -138,7 +211,12 @@ export default function AutomationsPage() {
       </div>
 
       {/* Items */}
-      {view === 'grid' ? (
+      {isLoadingMine ? (
+        <Card variant="flat" padding="lg" className="mt-5 flex items-center justify-center gap-3 text-akili-charbon-mute">
+          <Loader2 size={18} className="animate-spin" />
+          <span className="text-sm">On charge tes automatisations...</span>
+        </Card>
+      ) : view === 'grid' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-5">
           {filtered.map((t, i) => (
             <motion.div
@@ -149,8 +227,9 @@ export default function AutomationsPage() {
             >
               <TemplateCard
                 template={t}
-                isInstalled={tab === 'mine'}
-                onAction={tab === 'mine' ? handleConfigure : handleInstall}
+                isInstalled={isMine}
+                isInstalling={installing === t.id}
+                onAction={isMine ? handleConfigure : handleInstall}
               />
             </motion.div>
           ))}
@@ -161,24 +240,45 @@ export default function AutomationsPage() {
             <TemplateRow
               key={t.id}
               template={t}
-              isInstalled={tab === 'mine'}
-              onAction={tab === 'mine' ? handleConfigure : handleInstall}
+              isInstalled={isMine}
+              isInstalling={installing === t.id}
+              onAction={isMine ? handleConfigure : handleInstall}
             />
           ))}
         </Card>
       )}
 
-      {filtered.length === 0 && (
+      {!isLoadingMine && filtered.length === 0 && (
         <Card variant="flat" padding="lg" className="mt-5 text-center">
-          <Sparkles size={28} className="mx-auto text-akili-charbon-mute" />
-          <p className="mt-3 font-display font-bold">Aucun template pour ce filtre.</p>
+          {isMine && items.length === 0 ? (
+            <>
+              <Inbox size={28} className="mx-auto text-akili-charbon-mute" />
+              <p className="mt-3 font-display font-bold">Aucune automatisation pour l'instant.</p>
+              <p className="text-xs text-akili-charbon-soft mt-1">
+                Pioche un template dans la marketplace ou crée la tienne.
+              </p>
+              <div className="mt-4 flex justify-center gap-2">
+                <Button size="sm" variant="primary" onClick={() => setTab('templates')}>
+                  Voir la marketplace
+                </Button>
+                <Button size="sm" variant="outline" onClick={newModal.open}>
+                  Créer
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <Sparkles size={28} className="mx-auto text-akili-charbon-mute" />
+              <p className="mt-3 font-display font-bold">Aucun résultat pour ce filtre.</p>
+            </>
+          )}
         </Card>
       )}
 
       <NewAutomationModal
         isOpen={newModal.isOpen}
         onClose={newModal.close}
-        onCreate={() => {}}
+        onCreate={handleCreate}
       />
     </DashboardLayout>
   );
@@ -200,9 +300,9 @@ function FilterPill({ active, onClick, children }) {
   );
 }
 
-function TemplateCard({ template, isInstalled, onAction }) {
+function TemplateCard({ template, isInstalled, isInstalling, onAction }) {
   const t = template;
-  const cat = CATEGORIES[t.category];
+  const cat = CATEGORIES[t.category] || { label: 'Autre', color: 'indigo' };
   return (
     <Card variant="flat" padding="md" interactive className="h-full flex flex-col group">
       <div className="flex items-start justify-between mb-4">
@@ -219,7 +319,7 @@ function TemplateCard({ template, isInstalled, onAction }) {
       </p>
       <div className="mt-4 pt-4 border-t border-akili-line flex items-center justify-between">
         <div className="flex items-center gap-1.5">
-          {t.integrations.slice(0, 3).map((int) => (
+          {(t.integrations || []).slice(0, 3).map((int) => (
             <span
               key={int}
               className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-akili-papyrus-deep text-akili-charbon-soft font-bold"
@@ -227,7 +327,7 @@ function TemplateCard({ template, isInstalled, onAction }) {
               {int}
             </span>
           ))}
-          {t.integrations.length > 3 && (
+          {(t.integrations || []).length > 3 && (
             <span className="text-[10px] text-akili-charbon-mute">+{t.integrations.length - 3}</span>
           )}
         </div>
@@ -237,18 +337,19 @@ function TemplateCard({ template, isInstalled, onAction }) {
         size="sm"
         variant={isInstalled ? 'outline' : 'primary'}
         fullWidth
+        loading={isInstalling}
         className="mt-3"
         onClick={() => onAction?.(t)}
       >
-        {isInstalled ? 'Configurer' : 'Installer'}
+        {isInstalled ? 'Configurer' : isInstalling ? 'Installation...' : 'Installer'}
       </Button>
     </Card>
   );
 }
 
-function TemplateRow({ template, isInstalled, onAction }) {
+function TemplateRow({ template, isInstalled, isInstalling, onAction }) {
   const t = template;
-  const cat = CATEGORIES[t.category];
+  const cat = CATEGORIES[t.category] || { label: 'Autre', color: 'indigo' };
   return (
     <div className="px-5 py-4 flex items-center gap-4 border-b border-akili-line last:border-b-0 hover:bg-akili-papyrus-warm transition-colors">
       <span className={`w-10 h-10 rounded-akili bg-akili-${cat.color}-50 flex items-center justify-center text-akili-${cat.color}`}>
@@ -262,8 +363,13 @@ function TemplateRow({ template, isInstalled, onAction }) {
         <div className="text-xs text-akili-charbon-mute mt-0.5 truncate">{t.desc}</div>
       </div>
       <span className="hidden sm:inline font-mono text-xs text-akili-success font-medium">{t.savings}</span>
-      <Button size="sm" variant={isInstalled ? 'outline' : 'primary'} onClick={() => onAction?.(t)}>
-        {isInstalled ? 'Configurer' : 'Installer'}
+      <Button
+        size="sm"
+        variant={isInstalled ? 'outline' : 'primary'}
+        loading={isInstalling}
+        onClick={() => onAction?.(t)}
+      >
+        {isInstalled ? 'Configurer' : isInstalling ? '...' : 'Installer'}
       </Button>
     </div>
   );
