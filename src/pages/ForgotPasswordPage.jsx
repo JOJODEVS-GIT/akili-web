@@ -4,14 +4,17 @@ import { ArrowLeft, MailCheck } from 'lucide-react';
 import { AuthShell } from '@/components/auth/AuthShell';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
+import { useAuth } from '@/contexts/AuthContext';
+import { humanizeAuthError } from '@/lib/auth-errors';
 
 export default function ForgotPasswordPage() {
+  const { resetPassword } = useAuth();
   const [email, setEmail] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e?.preventDefault?.();
     if (!email.includes('@')) {
       setError("Cet email ne semble pas tout à fait juste.");
@@ -19,7 +22,13 @@ export default function ForgotPasswordPage() {
     }
     setError(null);
     setLoading(true);
-    setTimeout(() => { setLoading(false); setSent(true); }, 700);
+    const { error: err } = await resetPassword(email);
+    setLoading(false);
+    if (err) {
+      setError(humanizeAuthError(err));
+      return;
+    }
+    setSent(true);
   };
 
   return (

@@ -1,30 +1,43 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { GoogleButton } from './GoogleButton';
 import { useAuth } from '@/contexts/AuthContext';
+import { humanizeAuthError } from '@/lib/auth-errors';
 
 export function LoginForm() {
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const location = useLocation();
+  const { signIn, signInWithGoogle } = useAuth();
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const submit = (e) => {
+  const redirectTo = location.state?.from?.pathname || '/app';
+
+  const submit = async (e) => {
     e?.preventDefault?.();
     if (!form.email || !form.password) {
-      setError("Cet email ou mot de passe ne semble pas correct.");
+      setError("Email et mot de passe requis.");
       return;
     }
     setError(null);
     setLoading(true);
-    // Simulation auth — à remplacer par supabase.auth.signInWithPassword() en prod
-    setTimeout(() => {
-      setUser({ name: form.email.split('@')[0], email: form.email });
-      navigate('/app');
-    }, 700);
+    const { error: err } = await signIn({ email: form.email, password: form.password });
+    setLoading(false);
+    if (err) {
+      setError(humanizeAuthError(err));
+      return;
+    }
+    navigate(redirectTo, { replace: true });
+  };
+
+  const handleGoogle = async () => {
+    setError(null);
+    const { error: err } = await signInWithGoogle();
+    if (err) setError(humanizeAuthError(err));
+    // Sinon redirection automatique par Supabase OAuth
   };
 
   return (
@@ -76,7 +89,7 @@ export function LoginForm() {
           <span className="flex-1 h-px bg-akili-line" />
         </div>
 
-        <GoogleButton onClick={() => { setUser({ name: 'Aïcha' }); navigate('/app'); }} />
+        <GoogleButton onClick={handleGoogle} />
       </form>
     </>
   );
