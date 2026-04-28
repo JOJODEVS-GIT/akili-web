@@ -2,24 +2,10 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { ArrowRight, Play } from '@phosphor-icons/react';
-import {
-  SiGmail, SiGoogledrive, SiStripe, SiSlack, SiNotion, SiGithub, SiDiscord, SiGooglecalendar,
-} from 'react-icons/si';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { HeroTerminal } from './HeroTerminal';
 import { DemoModal } from './DemoModal';
-
-const COMPATIBLE_BRANDS = [
-  { Icon: SiGmail,          label: 'Gmail' },
-  { Icon: SiGoogledrive,    label: 'Drive' },
-  { Icon: SiStripe,         label: 'Stripe' },
-  { Icon: SiSlack,          label: 'Slack' },
-  { Icon: SiNotion,         label: 'Notion' },
-  { Icon: SiGithub,         label: 'GitHub' },
-  { Icon: SiDiscord,        label: 'Discord' },
-  { Icon: SiGooglecalendar, label: 'Calendar' },
-];
 
 const STATS = [
   { value: '40 h',   label: 'économisées par mois en moyenne' },
@@ -170,36 +156,12 @@ export function Hero() {
           <HeroTerminal />
         </div>
 
-        {/* Compatible avec — bande de logos officiels */}
+        {/* Social proof — villes */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.8 }}
           className="mt-16 pt-10 border-t border-akili-indigo-700/60"
-        >
-          <p className="text-[10px] uppercase tracking-[0.24em] text-akili-charbon-mute mb-6">
-            Compatible avec tes outils préférés
-          </p>
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
-            {COMPATIBLE_BRANDS.map(({ Icon, label }) => (
-              <span
-                key={label}
-                title={label}
-                className="inline-flex items-center gap-2.5 text-akili-papyrus/55 hover:text-akili-papyrus transition-colors duration-200"
-              >
-                <Icon size={22} />
-                <span className="font-display font-bold text-[13px] tracking-tight">{label}</span>
-              </span>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Social proof — villes */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.3, duration: 0.8 }}
-          className="mt-12 pt-10 border-t border-akili-indigo-700/60"
         >
           <p className="text-[10px] uppercase tracking-[0.24em] text-akili-charbon-mute mb-5">
             Déjà adopté à
