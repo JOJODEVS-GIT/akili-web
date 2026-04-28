@@ -19,7 +19,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  ChatCircleDots, X, PaperPlaneRight, ArrowLeft, ArrowRight, Lightning as Zap,
+  Headset, X, PaperPlaneRight, ArrowLeft, ArrowRight, Lightning as Zap,
 } from '@phosphor-icons/react';
 import { GREETING, KNOWLEDGE, FALLBACK, TEAM } from '@/data/chatbot-knowledge';
 import { cn } from '@/lib/cn';
@@ -386,30 +386,45 @@ export function SupportWidget() {
         <motion.button
           onClick={() => setView(view === 'closed' ? 'launcher' : 'closed')}
           className="w-14 h-14 rounded-full bg-akili-coral text-white shadow-akili-coral hover:shadow-akili-xl flex items-center justify-center relative"
-          aria-label={view === 'closed' ? 'Ouvrir le chat' : 'Fermer le chat'}
+          aria-label={view === 'closed' ? 'Ouvrir le chat support' : 'Fermer le chat'}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          {/* Pulse ring quand fermé */}
+          {/* Pulse ring discrète quand fermé */}
           {view === 'closed' && (
             <motion.span
               className="absolute inset-0 rounded-full bg-akili-coral"
-              animate={{ scale: [1, 1.4], opacity: [0.5, 0] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut' }}
+              animate={{ scale: [1, 1.35], opacity: [0.4, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
               aria-hidden
             />
           )}
+
+          {/* Dot online en top-right — signal "support dispo" */}
+          {view === 'closed' && (
+            <span
+              aria-hidden
+              className="absolute top-0 right-0 w-3.5 h-3.5 rounded-full bg-akili-success ring-2 ring-akili-coral flex items-center justify-center"
+            >
+              <motion.span
+                className="w-2 h-2 rounded-full bg-akili-success"
+                animate={{ scale: [1, 1.6, 1], opacity: [1, 0.5, 1] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            </span>
+          )}
+
           <AnimatePresence mode="wait">
             {view === 'closed' ? (
               <motion.span
-                key="chat-icon"
+                key="headset-icon"
                 initial={{ rotate: -90, opacity: 0 }}
                 animate={{ rotate: 0, opacity: 1 }}
                 exit={{ rotate: 90, opacity: 0 }}
                 transition={{ duration: 0.2 }}
                 className="relative"
               >
-                <ChatCircleDots size={22} weight="fill" />
+                <Headset size={24} weight="fill" />
               </motion.span>
             ) : (
               <motion.span
