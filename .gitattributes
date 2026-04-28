@@ -1,0 +1,24 @@
+# GitHub Linguist overrides — make the language stats reflect what the
+# project actually contains, not just the dominant .jsx files.
+#
+# How GitHub computes the colored language bar:
+#   - by default groups all .jsx into the "JavaScript" bucket
+#   - excludes Markdown, SVG, JSON from the stats
+#   - excludes vendored / generated content
+
+# Force JSX detection as a separate language from plain JavaScript
+*.jsx                  linguist-language=JSX
+
+# Include SVG and Markdown in the stats (excluded by default)
+*.svg                  linguist-detectable=true
+*.md                   linguist-detectable=true linguist-documentation=false
+
+# Mark generated artifacts so they don't pollute the stats
+dist/*                 linguist-generated=true
+package-lock.json      linguist-generated=true
+yarn.lock              linguist-generated=true
+*.min.js               linguist-generated=true
+*.min.css              linguist-generated=true
+
+# Public assets that aren't source code
+public/fonts/*         linguist-vendored=true
