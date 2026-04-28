@@ -3,11 +3,15 @@ import { motion } from 'framer-motion';
 import {
   CheckCircle as CheckCircle2,
   Warning as AlertTriangle,
-  Plus, Key as KeyRound, CircleNotch as Loader2, Calendar, Database, Cloud, Table,
-  // Brand logos Phosphor (vrais logos, pas des icônes génériques)
-  GoogleLogo, GoogleDriveLogo, StripeLogo, GithubLogo, SlackLogo, NotionLogo, DiscordLogo,
+  Plus, Key as KeyRound, CircleNotch as Loader2,
   Plugs as Webhook,
 } from '@phosphor-icons/react';
+// Vrais logos officiels des marques via Simple Icons (+ FA6 pour AWS, retiré de Simple Icons)
+import {
+  SiGmail, SiGoogledrive, SiStripe, SiGithub, SiSlack, SiNotion, SiDiscord,
+  SiGooglecalendar, SiGooglesheets, SiPostgresql,
+} from 'react-icons/si';
+import { FaAws } from 'react-icons/fa6';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -21,20 +25,20 @@ import { useConnections } from '@/hooks/useConnections';
 import { cn } from '@/lib/cn';
 
 // Catalogue statique des intégrations supportées (metadata UI, pas en BDD).
-// Utilise les vrais logos Phosphor pour les marques quand ils existent.
+// Vrais logos officiels via Simple Icons + couleurs de marque officielles.
 const PROVIDERS = [
-  { id: 'gmail',    name: 'Gmail',         Icon: GoogleLogo,      color: '#EA4335', desc: 'Lire, envoyer, trier des emails' },
-  { id: 'drive',    name: 'Google Drive',  Icon: GoogleDriveLogo, color: '#1FA463', desc: 'Stocker et organiser tes fichiers' },
-  { id: 'stripe',   name: 'Stripe',        Icon: StripeLogo,      color: '#635BFF', desc: 'Paiements, abonnements, factures' },
-  { id: 'github',   name: 'GitHub',        Icon: GithubLogo,      color: '#171515', desc: 'Repos, issues, déploiements' },
-  { id: 'slack',    name: 'Slack',         Icon: SlackLogo,       color: '#4A154B', desc: 'Notifications, alertes équipe' },
-  { id: 'notion',   name: 'Notion',        Icon: NotionLogo,      color: '#000000', desc: 'Bases de données, docs, knowledge' },
-  { id: 'calendar', name: 'Calendar',      Icon: Calendar,        color: '#4285F4', desc: 'Agenda, planification, rappels' },
-  { id: 'sheets',   name: 'Sheets',        Icon: Table,           color: '#1FA463', desc: 'Tableurs en lecture/écriture' },
-  { id: 'discord',  name: 'Discord',       Icon: DiscordLogo,     color: '#5865F2', desc: 'Bots, alertes communautaires' },
-  { id: 'postgres', name: 'PostgreSQL',    Icon: Database,        color: '#336791', desc: 'BDD relationnelle, backups' },
-  { id: 's3',       name: 'AWS S3',        Icon: Cloud,           color: '#FF9900', desc: 'Stockage cloud, archives' },
-  { id: 'webhook',  name: 'Webhook',       Icon: Webhook,         color: '#0E1A3E', desc: 'Reçois n\'importe quel événement HTTP' },
+  { id: 'gmail',    name: 'Gmail',         Icon: SiGmail,            color: '#EA4335', desc: 'Lire, envoyer, trier des emails' },
+  { id: 'drive',    name: 'Google Drive',  Icon: SiGoogledrive,      color: '#1FA463', desc: 'Stocker et organiser tes fichiers' },
+  { id: 'stripe',   name: 'Stripe',        Icon: SiStripe,           color: '#635BFF', desc: 'Paiements, abonnements, factures' },
+  { id: 'github',   name: 'GitHub',        Icon: SiGithub,           color: '#171515', desc: 'Repos, issues, déploiements' },
+  { id: 'slack',    name: 'Slack',         Icon: SiSlack,            color: '#4A154B', desc: 'Notifications, alertes équipe' },
+  { id: 'notion',   name: 'Notion',        Icon: SiNotion,           color: '#000000', desc: 'Bases de données, docs, knowledge' },
+  { id: 'calendar', name: 'Google Calendar', Icon: SiGooglecalendar, color: '#4285F4', desc: 'Agenda, planification, rappels' },
+  { id: 'sheets',   name: 'Google Sheets', Icon: SiGooglesheets,     color: '#1FA463', desc: 'Tableurs en lecture/écriture' },
+  { id: 'discord',  name: 'Discord',       Icon: SiDiscord,          color: '#5865F2', desc: 'Bots, alertes communautaires' },
+  { id: 'postgres', name: 'PostgreSQL',    Icon: SiPostgresql,       color: '#336791', desc: 'BDD relationnelle, backups' },
+  { id: 's3',       name: 'AWS S3',        Icon: FaAws,              color: '#FF9900', desc: 'Stockage cloud, archives' },
+  { id: 'webhook',  name: 'Webhook',       Icon: Webhook,            color: '#0E1A3E', desc: 'Reçois n\'importe quel événement HTTP' },
 ];
 
 const STATUS_CONFIG = {
