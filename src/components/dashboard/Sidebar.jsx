@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { LayoutDashboard, Workflow, History, PlugZap, BookOpen, LogOut, X } from 'lucide-react';
+import { SquaresFour as LayoutDashboard, FlowArrow as Workflow, ClockCounterClockwise as History, Plugs as PlugZap, BookOpen, SignOut as LogOut, X } from '@phosphor-icons/react';
 import { Logo } from '@/components/ui/Logo';
 import { cn } from '@/lib/cn';
 

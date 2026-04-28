@@ -1,4 +1,4 @@
-import { MoreHorizontal, Play, Pencil, Pause, Trash2 } from 'lucide-react';
+import { DotsThree as MoreHorizontal, Play, Pencil, Pause, Trash as Trash2 } from '@phosphor-icons/react';
 import { Badge } from '@/components/ui/Badge';
 import { Dropdown } from '@/components/ui/Dropdown';
 

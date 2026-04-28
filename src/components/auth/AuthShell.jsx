@@ -2,6 +2,8 @@
  * AuthShell — Shell deux colonnes pour Signup / Login.
  * Gauche : formulaire (papyrus). Droite : panneau poétique indigo avec quote.
  */
+import { Link } from 'react-router-dom';
+import { ArrowLeft } from '@phosphor-icons/react';
 import { Logo } from '@/components/ui/Logo';
 import { Testimonials } from './Testimonials';
 
@@ -10,7 +12,16 @@ export function AuthShell({ children, footer }) {
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-akili-papyrus">
       {/* Left — formulaire */}
       <div className="flex flex-col p-8 sm:p-10 lg:p-14">
-        <Logo size="md" />
+        <div className="flex items-center justify-between gap-4">
+          <Logo size="md" />
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-pill text-xs font-medium text-akili-charbon-soft bg-white ring-1 ring-akili-line hover:bg-akili-papyrus-deep hover:text-akili-charbon transition-all"
+          >
+            <ArrowLeft size={14} strokeWidth={2.25} />
+            Retour
+          </Link>
+        </div>
         <div className="flex-1 flex items-center justify-center py-8">
           <div className="w-full max-w-[400px]">{children}</div>
         </div>

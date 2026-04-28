@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Zap, Sparkles, Compass } from 'lucide-react';
+import { Lightning as Zap, Sparkle as Sparkles, Compass } from '@phosphor-icons/react';
 import { Container } from '@/components/ui/Container';
 
 const FEATURES = [

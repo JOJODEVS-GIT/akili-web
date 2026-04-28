@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, MailCheck } from 'lucide-react';
+import { ArrowLeft, EnvelopeSimpleOpen as MailCheck } from '@phosphor-icons/react';
 import { AuthShell } from '@/components/auth/AuthShell';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';

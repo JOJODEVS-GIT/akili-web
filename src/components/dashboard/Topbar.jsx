@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Menu, Search, Bell, User, Settings, LogOut } from 'lucide-react';
+import { List as Menu, MagnifyingGlass as Search, Bell, User, GearSix as Settings, SignOut as LogOut } from '@phosphor-icons/react';
 import { Dropdown } from '@/components/ui/Dropdown';
 import { NotificationsPanel } from './NotificationsPanel';
 import { capitalize } from '@/lib/format';
