@@ -1,4 +1,4 @@
-import { TrendingUp } from 'lucide-react';
+import { TrendUp as TrendingUp } from '@phosphor-icons/react';
 import { Card } from '@/components/ui/Card';
 import { Sparkline } from './Sparkline';
 import { cn } from '@/lib/cn';

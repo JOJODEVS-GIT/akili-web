@@ -1,4 +1,4 @@
-import { Sparkles, Plus } from 'lucide-react';
+import { Sparkle as Sparkles, Plus } from '@phosphor-icons/react';
 import { Button } from '@/components/ui/Button';
 
 export function EmptyState({ onCreate }) {

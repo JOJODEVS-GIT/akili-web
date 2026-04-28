@@ -1,9 +1,6 @@
 import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  CheckCircle2, XCircle, Loader2, Activity, Clock,
-  FolderTree, Mail, FileText, Workflow, MessageCircle, Rocket, Zap,
-} from 'lucide-react';
+import { CheckCircle as CheckCircle2, XCircle, CircleNotch as Loader2, Pulse as Activity, Clock, TreeStructure as FolderTree, EnvelopeSimple as Mail, FileText, FlowArrow as Workflow, ChatCircle as MessageCircle, Rocket, Lightning as Zap } from '@phosphor-icons/react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Heatmap } from '@/components/dashboard/Heatmap';
 import { Card } from '@/components/ui/Card';

@@ -1,4 +1,4 @@
-import { CheckCircle2, Clock } from 'lucide-react';
+import { CheckCircle as CheckCircle2, Clock } from '@phosphor-icons/react';
 import { LegalLayout } from '@/components/legal/LegalLayout';
 
 const SERVICES = [

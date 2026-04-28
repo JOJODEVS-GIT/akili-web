@@ -3,7 +3,7 @@
  * Pour le hackathon : UI fonctionnelle, créé en local, pas de persistance backend.
  */
 import { useState } from 'react';
-import { FileText, Rocket, FolderTree, DatabaseBackup, UserPlus, ArrowRight } from 'lucide-react';
+import { FileText, Rocket, TreeStructure as FolderTree, Database as DatabaseBackup, UserPlus, ArrowRight } from '@phosphor-icons/react';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, ArrowUpRight, Receipt, Rocket, FolderTree } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Receipt, Rocket, TreeStructure as FolderTree } from '@phosphor-icons/react';
 import { Container } from '@/components/ui/Container';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';

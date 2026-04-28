@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight, Play } from '@phosphor-icons/react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { HeroTerminal } from './HeroTerminal';

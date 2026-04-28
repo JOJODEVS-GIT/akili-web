@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, MessageCircle, Github, Send } from 'lucide-react';
+import { EnvelopeSimple as Mail, ChatCircle as MessageCircle, GithubLogo as Github, PaperPlaneTilt as Send } from '@phosphor-icons/react';
 import { LegalLayout } from '@/components/legal/LegalLayout';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';

@@ -3,7 +3,7 @@
  * Header simple (logo + back), contenu prose, footer minimal.
  */
 import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from '@phosphor-icons/react';
 import { Container } from '@/components/ui/Container';
 import { Logo } from '@/components/ui/Logo';
 

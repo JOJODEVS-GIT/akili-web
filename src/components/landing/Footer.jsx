@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Twitter, Github, Linkedin, ArrowRight } from 'lucide-react';
+import { TwitterLogo as Twitter, GithubLogo as Github, LinkedinLogo as Linkedin, ArrowRight } from '@phosphor-icons/react';
 import { Container } from '@/components/ui/Container';
 import { Logo } from '@/components/ui/Logo';
 import { useToast } from '@/components/ui/Toast';

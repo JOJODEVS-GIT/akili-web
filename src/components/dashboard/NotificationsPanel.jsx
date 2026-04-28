@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Bell, CheckCircle2, AlertTriangle, Sparkles, X } from 'lucide-react';
+import { Bell, CheckCircle as CheckCircle2, Warning as AlertTriangle, Sparkle as Sparkles, X } from '@phosphor-icons/react';
 import { cn } from '@/lib/cn';
 
 const SAMPLE_NOTIFS = [

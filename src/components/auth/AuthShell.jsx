@@ -3,7 +3,7 @@
  * Gauche : formulaire (papyrus). Droite : panneau poétique indigo avec quote.
  */
 import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from '@phosphor-icons/react';
 import { Logo } from '@/components/ui/Logo';
 import { Testimonials } from './Testimonials';
 
