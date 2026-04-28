@@ -4,7 +4,7 @@
  */
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CaretDown, Question, EnvelopeSimple as Mail } from '@phosphor-icons/react';
+import { CaretDown, Question } from '@phosphor-icons/react';
 import { Container } from '@/components/ui/Container';
 import { cn } from '@/lib/cn';
 
@@ -131,35 +131,6 @@ export function FAQ() {
             />
           ))}
         </div>
-
-        {/* Bottom contact CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.5 }}
-          className="mt-12 max-w-3xl mx-auto p-6 rounded-akili bg-akili-indigo-50 border border-akili-indigo-100 flex flex-wrap items-center justify-between gap-4"
-        >
-          <div className="flex items-center gap-3">
-            <span className="w-10 h-10 rounded-full bg-akili-indigo text-akili-or flex items-center justify-center">
-              <Mail size={20} weight="duotone" />
-            </span>
-            <div>
-              <p className="font-display font-bold text-sm text-akili-charbon">
-                Une autre question ?
-              </p>
-              <p className="font-sans text-[13px] text-akili-charbon-soft">
-                On répond en français, sous 4 h en moyenne.
-              </p>
-            </div>
-          </div>
-          <a
-            href="mailto:hello@akili.app"
-            className="font-display font-bold text-sm text-akili-coral hover:text-akili-coral-700 transition-colors"
-          >
-            hello@akili.app →
-          </a>
-        </motion.div>
       </Container>
     </section>
   );
