@@ -276,7 +276,7 @@ export function ProductShowcase() {
               <div className="bg-akili-coral text-white px-3 py-1.5 rounded-pill font-display font-bold text-[11px] uppercase tracking-wider shadow-akili-coral inline-block">
                 ① 4 KPI live
               </div>
-              <p className="font-sans text-[12px] text-akili-charbon-soft mt-2 leading-snug">
+              <p className="font-sans text-[12px] text-white bg-akili-indigo/95 px-3 py-2 mt-2 rounded-md leading-snug shadow-akili-sm">
                 Actifs, runs du mois, taux de succès, heures gagnées — actualisés toutes les 30 s.
               </p>
             </motion.div>
@@ -292,7 +292,7 @@ export function ProductShowcase() {
               <div className="bg-akili-or text-akili-indigo px-3 py-1.5 rounded-pill font-display font-bold text-[11px] uppercase tracking-wider shadow-akili-or inline-block">
                 ② Heatmap 12 sem
               </div>
-              <p className="font-sans text-[12px] text-akili-charbon-soft mt-2 leading-snug">
+              <p className="font-sans text-[12px] text-white bg-akili-indigo/95 px-3 py-2 mt-2 rounded-md leading-snug shadow-akili-sm">
                 Une cellule = un jour. Plus c'est doré, plus tu as automatisé.
               </p>
             </motion.div>

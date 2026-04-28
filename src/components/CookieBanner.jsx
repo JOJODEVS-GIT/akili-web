@@ -82,11 +82,12 @@ export function CookieBanner() {
                 Tout accepter
               </Button>
               <Button size="sm" variant="outline" fullWidth onClick={rejectNonEssential}>
-                Essentiels uniquement
+                Tout refuser
               </Button>
               <Button
                 size="sm"
                 variant="ghost"
+                fullWidth
                 onClick={settings.open}
                 iconLeft={<Settings size={14} />}
               >
