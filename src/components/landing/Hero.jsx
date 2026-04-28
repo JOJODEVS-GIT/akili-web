@@ -111,15 +111,20 @@ export function Hero() {
               custom={3}
               className="flex flex-wrap gap-3.5 mt-9"
             >
-              <Link to="/signup">
-                <Button size="lg" variant="primary" iconRight={<ArrowRight size={18} />}>
+              <Link to="/signup" className="w-full sm:w-auto">
+                <Button
+                  size="lg"
+                  variant="primary"
+                  iconRight={<ArrowRight size={18} />}
+                  className="w-full sm:w-[230px] justify-center"
+                >
                   Commencer maintenant
                 </Button>
               </Link>
               <Button
                 size="lg"
                 variant="outline"
-                className="border-akili-papyrus/30 text-akili-papyrus hover:bg-akili-papyrus/10 hover:border-akili-papyrus/60"
+                className="w-full sm:w-[230px] justify-center border-akili-papyrus/30 text-akili-papyrus hover:bg-akili-papyrus/10 hover:border-akili-papyrus/60"
                 iconLeft={<Play size={18} fill="currentColor" />}
                 onClick={() => setDemoOpen(true)}
               >
