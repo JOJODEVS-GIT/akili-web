@@ -101,7 +101,7 @@ export function UseCases() {
                 <div className="flex items-start justify-between mb-5">
                   <Badge variant={c.accent}>{c.tag}</Badge>
                   <div className={`w-11 h-11 rounded-akili ${c.iconBg} flex items-center justify-center ${c.iconColor} transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6`}>
-                    <c.Icon size={20} strokeWidth={1.75} />
+                    <c.Icon size={22} weight="duotone" />
                   </div>
                 </div>
 

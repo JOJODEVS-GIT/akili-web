@@ -1,31 +1,12 @@
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useInView, animate, useMotionValue } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
 import { ArrowRight, Play } from '@phosphor-icons/react';
-import {
-  SiGmail, SiGoogledrive, SiStripe, SiSlack, SiNotion, SiGithub, SiDiscord, SiGooglecalendar,
-} from 'react-icons/si';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { HeroTerminal } from './HeroTerminal';
 import { DemoModal } from './DemoModal';
-
-const COMPATIBLE_BRANDS = [
-  { Icon: SiGmail,          label: 'Gmail' },
-  { Icon: SiGoogledrive,    label: 'Drive' },
-  { Icon: SiStripe,         label: 'Stripe' },
-  { Icon: SiSlack,          label: 'Slack' },
-  { Icon: SiNotion,         label: 'Notion' },
-  { Icon: SiGithub,         label: 'GitHub' },
-  { Icon: SiDiscord,        label: 'Discord' },
-  { Icon: SiGooglecalendar, label: 'Calendar' },
-];
-
-const STATS = [
-  { value: '40 h',   label: 'économisées par mois en moyenne' },
-  { value: '2 800+', label: 'automatisations actives' },
-  { value: '< 60 s', label: "entre l'idée et l'exécution" },
-];
+import { usePublicStats } from '@/hooks/usePublicStats';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
@@ -36,12 +17,35 @@ const fadeUp = {
   }),
 };
 
+// Count-up animé qui se déclenche quand l'élément entre dans le viewport
+function CountUp({ to, format = (n) => n, duration = 1.6 }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-50px' });
+  const value = useMotionValue(0);
+  const [display, setDisplay] = useState(format(0));
+
+  useEffect(() => {
+    if (!inView) return;
+    const controls = animate(value, to, {
+      duration,
+      ease: [0.25, 0.1, 0.25, 1],
+      onUpdate: (v) => setDisplay(format(Math.round(v))),
+    });
+    return () => controls.stop();
+  }, [inView, to, duration, format, value]);
+
+  return <span ref={ref}>{display}</span>;
+}
+
+const fmtThousands = (n) => n.toLocaleString('fr-FR');
+
 export function Hero() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const yOr = useTransform(scrollYProgress, [0, 1], [0, -120]);
   const yCoral = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const [demoOpen, setDemoOpen] = useState(false);
+  const { stats, live } = usePublicStats();
 
   return (
     <>
@@ -146,6 +150,7 @@ export function Hero() {
               </Button>
             </motion.div>
 
+            {/* Stats — branchées sur usePublicStats avec fallback marketing */}
             <motion.div
               initial="hidden"
               animate="visible"
@@ -153,16 +158,41 @@ export function Hero() {
               custom={4}
               className="grid grid-cols-3 gap-6 mt-12 max-w-[520px]"
             >
-              {STATS.map((s) => (
-                <div key={s.value}>
-                  <div className="font-display font-extrabold text-2xl lg:text-[28px] leading-none tracking-[-0.02em] text-akili-or">
-                    {s.value}
-                  </div>
-                  <div className="font-sans text-[12px] text-akili-charbon-mute mt-1.5 leading-tight">
-                    {s.label}
-                  </div>
+              {/* Stat 1 — heures économisées */}
+              <div>
+                <div className="font-display font-extrabold text-2xl lg:text-[28px] leading-none tracking-[-0.02em] text-akili-or">
+                  <CountUp to={stats.hours} /> h
                 </div>
-              ))}
+                <div className="font-sans text-[12px] text-akili-charbon-mute mt-1.5 leading-tight">
+                  économisées par mois en moyenne
+                </div>
+              </div>
+
+              {/* Stat 2 — automatisations actives (avec dot LIVE si données réelles) */}
+              <div>
+                <div className="font-display font-extrabold text-2xl lg:text-[28px] leading-none tracking-[-0.02em] text-akili-or inline-flex items-center gap-2">
+                  <CountUp to={stats.active} format={fmtThousands} />+
+                  {live && (
+                    <span className="inline-flex items-center gap-1 text-[10px] font-display font-bold uppercase tracking-wider text-akili-success">
+                      <span className="w-1.5 h-1.5 rounded-full bg-akili-success animate-pulse" />
+                      live
+                    </span>
+                  )}
+                </div>
+                <div className="font-sans text-[12px] text-akili-charbon-mute mt-1.5 leading-tight">
+                  automatisations actives
+                </div>
+              </div>
+
+              {/* Stat 3 — temps setup (statique, claim marketing) */}
+              <div>
+                <div className="font-display font-extrabold text-2xl lg:text-[28px] leading-none tracking-[-0.02em] text-akili-or">
+                  &lt; <CountUp to={stats.setupSec} /> s
+                </div>
+                <div className="font-sans text-[12px] text-akili-charbon-mute mt-1.5 leading-tight">
+                  entre l'idée et l'exécution
+                </div>
+              </div>
             </motion.div>
           </div>
 
@@ -170,36 +200,12 @@ export function Hero() {
           <HeroTerminal />
         </div>
 
-        {/* Compatible avec — bande de logos officiels */}
+        {/* Social proof — villes */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.8 }}
           className="mt-16 pt-10 border-t border-akili-indigo-700/60"
-        >
-          <p className="text-[10px] uppercase tracking-[0.24em] text-akili-charbon-mute mb-6">
-            Compatible avec tes outils préférés
-          </p>
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
-            {COMPATIBLE_BRANDS.map(({ Icon, label }) => (
-              <span
-                key={label}
-                title={label}
-                className="inline-flex items-center gap-2.5 text-akili-papyrus/55 hover:text-akili-papyrus transition-colors duration-200"
-              >
-                <Icon size={22} />
-                <span className="font-display font-bold text-[13px] tracking-tight">{label}</span>
-              </span>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Social proof — villes */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.3, duration: 0.8 }}
-          className="mt-12 pt-10 border-t border-akili-indigo-700/60"
         >
           <p className="text-[10px] uppercase tracking-[0.24em] text-akili-charbon-mute mb-5">
             Déjà adopté à

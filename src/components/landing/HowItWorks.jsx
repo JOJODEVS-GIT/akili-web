@@ -127,7 +127,7 @@ export function HowItWorks() {
               >
                 {/* Bulle icône (au-dessus de la ligne) */}
                 <div className="relative z-10 shrink-0 w-14 h-14 rounded-akili bg-akili-papyrus-deep flex items-center justify-center text-akili-coral">
-                  <Icon size={22} strokeWidth={1.75} />
+                  <Icon size={26} weight="duotone" />
                 </div>
 
                 <div className="min-w-0 flex-1">
