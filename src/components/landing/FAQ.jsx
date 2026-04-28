@@ -109,7 +109,7 @@ export function FAQ() {
           className="text-center max-w-2xl mx-auto"
         >
           <span className="font-display font-bold text-xs tracking-[0.18em] uppercase text-akili-coral inline-flex items-center gap-2">
-            <Question size={14} weight="bold" /> Questions fréquentes
+            <Question size={16} weight="duotone" /> Questions fréquentes
           </span>
           <h2 className="font-display font-extrabold text-[44px] sm:text-[52px] leading-[1.05] tracking-[-0.03em] mt-4 text-balance">
             Ce qu'on nous demande le plus.
@@ -142,7 +142,7 @@ export function FAQ() {
         >
           <div className="flex items-center gap-3">
             <span className="w-10 h-10 rounded-full bg-akili-indigo text-akili-or flex items-center justify-center">
-              <Mail size={18} weight="bold" />
+              <Mail size={20} weight="duotone" />
             </span>
             <div>
               <p className="font-display font-bold text-sm text-akili-charbon">

@@ -38,7 +38,7 @@ export function StatCard({
       <div className="flex items-center justify-between gap-2.5 text-akili-charbon-mute">
         <div className="flex items-center gap-2.5 min-w-0">
           <span className={`shrink-0 w-8 h-8 rounded-md bg-akili-papyrus-deep flex items-center justify-center ${a.text}`}>
-            <Icon size={16} strokeWidth={2} />
+            <Icon size={18} weight="duotone" />
           </span>
           <span className="font-sans text-[13px] text-akili-charbon-soft font-medium truncate">
             {label}
@@ -57,7 +57,7 @@ export function StatCard({
         </span>
         {delta && (
           <span className="inline-flex items-center gap-1 font-mono text-xs text-akili-success font-medium">
-            <TrendingUp size={12} strokeWidth={2.5} />
+            <TrendingUp size={14} weight="bold" />
             {delta}
           </span>
         )}

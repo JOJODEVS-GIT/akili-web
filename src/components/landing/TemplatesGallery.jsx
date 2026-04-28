@@ -106,7 +106,7 @@ export function TemplatesGallery() {
             className="max-w-2xl"
           >
             <span className="font-display font-bold text-xs tracking-[0.18em] uppercase text-akili-coral inline-flex items-center gap-2">
-              <Sparkles size={14} weight="fill" /> Templates prêts à l'emploi
+              <Sparkles size={16} weight="duotone" /> Templates prêts à l'emploi
             </span>
             <h2 className="font-display font-extrabold text-[44px] sm:text-[52px] leading-[1.05] tracking-[-0.03em] mt-4 text-balance">
               Lance-toi en 60 secondes,
@@ -175,7 +175,7 @@ export function TemplatesGallery() {
                           accent.bg, accent.text
                         )}
                       >
-                        <t.Icon size={20} weight="bold" />
+                        <t.Icon size={22} weight="duotone" />
                       </div>
                       <Badge variant={accent.badge}>{cat.label}</Badge>
                     </div>
@@ -203,7 +203,7 @@ export function TemplatesGallery() {
                     {/* Footer : savings */}
                     <div className="mt-auto pt-5 flex items-center justify-between border-t border-akili-line/60 mt-4">
                       <span className="inline-flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-wider text-akili-charbon-mute">
-                        <Zap size={12} weight="fill" className={accent.text} />
+                        <Zap size={14} weight="duotone" className={accent.text} />
                         {t.savings}
                       </span>
                       <ArrowRight size={14} className="text-akili-charbon-mute group-hover:text-akili-coral group-hover:translate-x-0.5 transition-all" />

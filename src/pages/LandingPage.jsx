@@ -18,9 +18,9 @@ export default function LandingPage() {
     <div className="min-h-screen bg-akili-papyrus">
       <Navbar />
       <Hero />
-      <IntegrationsMarquee />
       <SectionSeparator />
       <Features />
+      <IntegrationsMarquee />
       <SectionSeparator />
       <HowItWorks />
       <SectionSeparator />

@@ -82,7 +82,7 @@ export function Security() {
           className="text-center max-w-2xl mx-auto"
         >
           <span className="font-display font-bold text-xs tracking-[0.18em] uppercase text-akili-or inline-flex items-center gap-2">
-            <Sparkles size={14} weight="fill" /> Confiance &amp; sécurité
+            <Sparkles size={16} weight="duotone" /> Confiance &amp; sécurité
           </span>
           <h2 className="font-display font-extrabold text-[44px] sm:text-[56px] leading-[1.05] tracking-[-0.03em] mt-4 text-balance">
             Tes données ne dorment{' '}
@@ -108,7 +108,7 @@ export function Security() {
             >
               <div className="flex items-start gap-5">
                 <span className="shrink-0 w-12 h-12 rounded-akili bg-akili-or-50/10 text-akili-or flex items-center justify-center group-hover:bg-akili-or group-hover:text-akili-indigo transition-all duration-300">
-                  <p.Icon size={22} weight="bold" />
+                  <p.Icon size={26} weight="duotone" />
                 </span>
                 <div className="flex-1">
                   <h3 className="font-display font-extrabold text-[20px] tracking-[-0.02em] text-akili-papyrus">

@@ -85,7 +85,7 @@ export function Features() {
 
               {/* Icône large + colorée */}
               <div className={`w-16 h-16 rounded-akili ${bgAccent} flex items-center justify-center ${textAccent}`}>
-                <Icon size={32} strokeWidth={1.75} />
+                <Icon size={32} weight="duotone" />
               </div>
 
               <h3 className="font-display font-extrabold text-[28px] tracking-[-0.02em] mt-6">
