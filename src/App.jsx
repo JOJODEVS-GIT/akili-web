@@ -6,6 +6,7 @@ import { ConfirmProvider } from '@/components/ui/ConfirmDialog';
 import { PageSkeleton } from '@/components/ui/Skeleton';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import { CookieBanner } from '@/components/CookieBanner';
+import { SupportWidget } from '@/components/support/SupportWidget';
 
 // Pages publiques — chargées dans le bundle initial
 import LandingPage from '@/pages/LandingPage';
@@ -69,6 +70,7 @@ export default function App() {
             </Routes>
           </Suspense>
           <CookieBanner />
+          <SupportWidget />
         </ConfirmProvider>
       </ToastProvider>
     </AuthProvider>
