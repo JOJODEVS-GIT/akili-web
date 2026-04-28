@@ -153,17 +153,24 @@ export function Comparison() {
               <div
                 key={c.id}
                 className={cn(
-                  'px-3 py-5 text-center border-l border-akili-line/60',
-                  c.featured && 'bg-akili-or-50/60 relative'
+                  'px-3 py-5 text-center border-l border-akili-line/60 relative',
+                  c.featured && 'bg-akili-or-50/60'
                 )}
               >
+                {/* Marqueur "Nous" — bande dorée sur le bord supérieur de la colonne featured */}
                 {c.featured && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center bg-akili-coral text-white text-[10px] font-display font-bold uppercase tracking-wider px-2.5 py-1 rounded-pill shadow-akili-coral">
-                    Nous
-                  </span>
+                  <span
+                    aria-hidden
+                    className="absolute inset-x-0 top-0 h-1 bg-akili-coral"
+                  />
                 )}
-                <div className="font-display font-extrabold text-base tracking-[-0.02em] text-akili-charbon">
+                <div className="font-display font-extrabold text-base tracking-[-0.02em] text-akili-charbon inline-flex items-center gap-1.5">
                   {c.name}
+                  {c.featured && (
+                    <span className="inline-flex items-center bg-akili-coral text-white text-[9px] font-display font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md leading-none">
+                      Nous
+                    </span>
+                  )}
                 </div>
                 <div className="font-sans text-[11px] text-akili-charbon-mute mt-0.5 leading-tight">
                   {c.tagline}
