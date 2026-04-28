@@ -5,7 +5,7 @@ export function EmptyState({ onCreate }) {
   return (
     <div className="px-8 py-16 text-center flex flex-col items-center gap-4">
       <div className="w-16 h-16 rounded-2xl bg-akili-papyrus-deep flex items-center justify-center text-akili-coral">
-        <Sparkles size={28} strokeWidth={1.75} />
+        <Sparkles size={32} weight="duotone" />
       </div>
       <h3 className="font-display font-extrabold text-2xl tracking-[-0.02em]">
         Ton premier souffle commence ici.
