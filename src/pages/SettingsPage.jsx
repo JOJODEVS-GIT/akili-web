@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Bell, Lock, Globe, CreditCard, Shield, Trash2 } from 'lucide-react';
+import { Bell, Lock, Globe, CreditCard, Shield, Trash as Trash2 } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Card } from '@/components/ui/Card';

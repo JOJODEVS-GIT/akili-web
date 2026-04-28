@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight, Play } from '@phosphor-icons/react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { HeroTerminal } from './HeroTerminal';
@@ -111,15 +111,20 @@ export function Hero() {
               custom={3}
               className="flex flex-wrap gap-3.5 mt-9"
             >
-              <Link to="/signup">
-                <Button size="lg" variant="primary" iconRight={<ArrowRight size={18} />}>
-                  Commencer maintenant
+              <Link to="/signup" className="w-full sm:w-auto">
+                <Button
+                  size="lg"
+                  variant="primary"
+                  iconRight={<ArrowRight size={18} />}
+                  className="w-full sm:w-[210px] justify-center whitespace-nowrap"
+                >
+                  Démarrer
                 </Button>
               </Link>
               <Button
                 size="lg"
                 variant="outline"
-                className="border-akili-papyrus/30 text-akili-papyrus hover:bg-akili-papyrus/10 hover:border-akili-papyrus/60"
+                className="w-full sm:w-[210px] justify-center whitespace-nowrap border-akili-papyrus/30 text-akili-papyrus hover:bg-akili-papyrus/10 hover:border-akili-papyrus/60"
                 iconLeft={<Play size={18} fill="currentColor" />}
                 onClick={() => setDemoOpen(true)}
               >

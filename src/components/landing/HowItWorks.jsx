@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { MessageSquare, PlugZap, Rocket } from 'lucide-react';
+import { ChatCenteredText as MessageSquare, Plugs as PlugZap, Rocket } from '@phosphor-icons/react';
 import { Container } from '@/components/ui/Container';
 
 const STEPS = [

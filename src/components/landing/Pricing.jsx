@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Check, Sparkles } from 'lucide-react';
+import { Check, Sparkle as Sparkles } from '@phosphor-icons/react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 

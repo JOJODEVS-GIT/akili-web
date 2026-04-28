@@ -1,10 +1,6 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import {
-  LayoutGrid, List, Plus, Sparkles, Filter, Loader2, Inbox,
-  FolderTree, Mail as MailIcon, FileText as FileTextIcon, Workflow,
-  MessageCircle, Rocket, Zap,
-} from 'lucide-react';
+import { SquaresFour as LayoutGrid, List, Plus, Sparkle as Sparkles, Funnel as Filter, CircleNotch as Loader2, Tray as Inbox, TreeStructure as FolderTree, EnvelopeSimple as MailIcon, FileText as FileTextIcon, FlowArrow as Workflow, ChatCircle as MessageCircle, Rocket, Lightning as Zap } from '@phosphor-icons/react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';

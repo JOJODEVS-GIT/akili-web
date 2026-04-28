@@ -5,7 +5,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Cookie, X, Settings } from 'lucide-react';
+import { Cookie, X, GearSix as Settings } from '@phosphor-icons/react';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { useDisclosure } from '@/hooks/useDisclosure';

@@ -5,10 +5,7 @@
  */
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-  X, FileText, CheckCircle2, Loader2, ArrowRight, Hourglass,
-  Workflow, PlayCircle,
-} from 'lucide-react';
+import { X, FileText, CheckCircle as CheckCircle2, CircleNotch as Loader2, ArrowRight, Hourglass, FlowArrow as Workflow, PlayCircle } from '@phosphor-icons/react';
 
 const SCENES = [
   { id: 0, label: '1. Décris ton besoin' },

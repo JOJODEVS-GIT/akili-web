@@ -7,14 +7,7 @@
  * - La modal "Nouvelle automatisation"
  * - Les démos du Dashboard
  */
-import {
-  FileText, FileImage, FolderArchive, Image, FileDigit,
-  Mail, Inbox, MailCheck,
-  Receipt, FileSpreadsheet, AlertCircle,
-  Calendar, CalendarClock, Timer,
-  MessageCircle, Bell, Twitter,
-  Rocket, ShieldCheck, DatabaseBackup,
-} from 'lucide-react';
+import { FileText, ImageSquare as FileImage, Archive as FolderArchive, Image, File as FileDigit, EnvelopeSimple as Mail, Tray as Inbox, EnvelopeSimpleOpen as MailCheck, Receipt, Table as FileSpreadsheet, WarningCircle as AlertCircle, Calendar, Calendar as CalendarClock, Timer, ChatCircle as MessageCircle, Bell, TwitterLogo as Twitter, Rocket, ShieldCheck, Database as DatabaseBackup } from '@phosphor-icons/react';
 
 export const CATEGORIES = {
   files:         { id: 'files',         label: 'Fichiers',     color: 'indigo' },

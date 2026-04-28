@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Camera, Save } from 'lucide-react';
+import { Camera, FloppyDisk as Save } from '@phosphor-icons/react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';

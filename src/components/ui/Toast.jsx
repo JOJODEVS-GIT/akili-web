@@ -10,7 +10,7 @@
 import { createContext, useCallback, useContext, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { CheckCircle2, AlertCircle, AlertTriangle, Info, X } from 'lucide-react';
+import { CheckCircle as CheckCircle2, WarningCircle as AlertCircle, Warning as AlertTriangle, Info, X } from '@phosphor-icons/react';
 import { cn } from '@/lib/cn';
 
 const ToastContext = createContext(null);

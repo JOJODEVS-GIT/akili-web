@@ -1,9 +1,6 @@
 import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Search, ArrowRight, Rocket, BookOpen, PlugZap, Code2, AlertTriangle,
-  Sparkles, ChevronDown, ChevronRight, Mail, MessageCircle, Github,
-} from 'lucide-react';
+import { MagnifyingGlass as Search, ArrowRight, Rocket, BookOpen, Plugs as PlugZap, Code as Code2, Warning as AlertTriangle, Sparkle as Sparkles, CaretDown as ChevronDown, CaretRight as ChevronRight, EnvelopeSimple as Mail, ChatCircle as MessageCircle, GithubLogo as Github } from '@phosphor-icons/react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';

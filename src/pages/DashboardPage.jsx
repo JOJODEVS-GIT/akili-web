@@ -1,10 +1,6 @@
 import { useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import {
-  Workflow, PlayCircle, Hourglass, RefreshCcw, Plus,
-  FileText, Rocket, FolderTree, DatabaseBackup, UserPlus,
-  Zap, MessageCircle, Mail, ArrowUpDown, Inbox,
-} from 'lucide-react';
+import { FlowArrow as Workflow, PlayCircle, Hourglass, ArrowsClockwise as RefreshCcw, Plus, FileText, Rocket, TreeStructure as FolderTree, Database as DatabaseBackup, UserPlus, Lightning as Zap, ChatCircle as MessageCircle, EnvelopeSimple as Mail, ArrowsDownUp as ArrowUpDown, Tray as Inbox } from '@phosphor-icons/react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { StatCard } from '@/components/dashboard/StatCard';
 import { AutomationRow } from '@/components/dashboard/AutomationRow';
