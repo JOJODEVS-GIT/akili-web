@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { TwitterLogo as Twitter, GithubLogo as Github, LinkedinLogo as Linkedin, ArrowRight } from '@phosphor-icons/react';
+import { ArrowRight } from '@phosphor-icons/react';
+import { SiX, SiGithub } from 'react-icons/si';
+import { FaLinkedin } from 'react-icons/fa6';
 import { Container } from '@/components/ui/Container';
 import { Logo } from '@/components/ui/Logo';
 import { useToast } from '@/components/ui/Toast';
@@ -36,9 +38,9 @@ const COLS = [
 ];
 
 const SOCIAL = [
-  { Icon: Twitter,  label: 'Twitter',  href: 'https://twitter.com/akili_app' },
-  { Icon: Github,   label: 'GitHub',   href: 'https://github.com/akili-app' },
-  { Icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/company/akili-app' },
+  { Icon: SiX,        label: 'X (Twitter)', href: 'https://twitter.com/akili_app' },
+  { Icon: SiGithub,   label: 'GitHub',      href: 'https://github.com/akili-app' },
+  { Icon: FaLinkedin, label: 'LinkedIn',    href: 'https://linkedin.com/company/akili-app' },
 ];
 
 export function Footer() {
