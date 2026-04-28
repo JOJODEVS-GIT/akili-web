@@ -157,6 +157,28 @@ export function ProductShowcase() {
 
               {/* Main */}
               <main className="p-6 bg-akili-papyrus relative">
+                {/* Pill ① — superposée sur la mockup, top-right de main, signale les KPI */}
+                <motion.span
+                  initial={{ opacity: 0, scale: 0.92, y: -4 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6, duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="hidden md:inline-flex absolute top-4 right-4 z-10 bg-akili-coral text-white px-2.5 py-1 rounded-pill font-display font-bold text-[10px] uppercase tracking-wider shadow-akili-coral"
+                >
+                  ① 4 KPI live
+                </motion.span>
+
+                {/* Pill ② — superposée sur la mockup, bottom-right de main, signale la heatmap */}
+                <motion.span
+                  initial={{ opacity: 0, scale: 0.92, y: 4 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.7, duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="hidden md:inline-flex absolute bottom-4 right-4 z-10 bg-akili-or text-akili-indigo px-2.5 py-1 rounded-pill font-display font-bold text-[10px] uppercase tracking-wider shadow-akili-or"
+                >
+                  ② Heatmap 12 sem
+                </motion.span>
+
                 <div className="flex items-baseline justify-between mb-5">
                   <div>
                     <h3 className="font-display font-extrabold text-xl tracking-[-0.02em] text-akili-charbon">
