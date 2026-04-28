@@ -1,6 +1,12 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { SquaresFour as LayoutGrid, List, Plus, Sparkle as Sparkles, Funnel as Filter, CircleNotch as Loader2, Tray as Inbox, TreeStructure as FolderTree, EnvelopeSimple as MailIcon, FileText as FileTextIcon, FlowArrow as Workflow, ChatCircle as MessageCircle, Rocket, Lightning as Zap } from '@phosphor-icons/react';
+import {
+  SiGmail, SiGoogledrive, SiStripe, SiSlack, SiNotion, SiGithub, SiDiscord,
+  SiGooglecalendar, SiGooglesheets, SiPostgresql, SiX,
+  SiVercel, SiToggl,
+} from 'react-icons/si';
+import { FaAws } from 'react-icons/fa6';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -11,6 +17,45 @@ import { useToast } from '@/components/ui/Toast';
 import { useAutomations } from '@/hooks/useAutomations';
 import { TEMPLATES, CATEGORIES } from '@/data/templates';
 import { cn } from '@/lib/cn';
+
+// Map provider id → vrai logo officiel + couleur de marque
+const INTEGRATION_LOGOS = {
+  gmail:    { Icon: SiGmail,            color: '#EA4335' },
+  drive:    { Icon: SiGoogledrive,      color: '#1FA463' },
+  stripe:   { Icon: SiStripe,           color: '#635BFF' },
+  slack:    { Icon: SiSlack,            color: '#4A154B' },
+  notion:   { Icon: SiNotion,           color: '#000000' },
+  github:   { Icon: SiGithub,           color: '#171515' },
+  discord:  { Icon: SiDiscord,          color: '#5865F2' },
+  calendar: { Icon: SiGooglecalendar,   color: '#4285F4' },
+  sheets:   { Icon: SiGooglesheets,     color: '#1FA463' },
+  postgres: { Icon: SiPostgresql,       color: '#336791' },
+  s3:       { Icon: FaAws,              color: '#FF9900' },
+  twitter:  { Icon: SiX,                color: '#000000' },
+  vercel:   { Icon: SiVercel,           color: '#000000' },
+  toggl:    { Icon: SiToggl,            color: '#E57CD8' },
+};
+
+function IntegrationLogo({ id, size = 14 }) {
+  const meta = INTEGRATION_LOGOS[id];
+  if (!meta) {
+    return (
+      <span className="inline-flex items-center justify-center w-5 h-5 rounded-sm bg-akili-papyrus-deep text-[8px] uppercase font-bold tracking-wider text-akili-charbon-soft">
+        {id.slice(0, 2)}
+      </span>
+    );
+  }
+  const { Icon, color } = meta;
+  return (
+    <span
+      title={id}
+      className="inline-flex items-center justify-center w-5 h-5 rounded-sm"
+      style={{ background: `${color}15`, color }}
+    >
+      <Icon size={size} />
+    </span>
+  );
+}
 
 const TABS = [
   { id: 'mine',     label: 'Mes automatisations' },
@@ -315,16 +360,11 @@ function TemplateCard({ template, isInstalled, isInstalling, onAction }) {
       </p>
       <div className="mt-4 pt-4 border-t border-akili-line flex items-center justify-between">
         <div className="flex items-center gap-1.5">
-          {(t.integrations || []).slice(0, 3).map((int) => (
-            <span
-              key={int}
-              className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-akili-papyrus-deep text-akili-charbon-soft font-bold"
-            >
-              {int}
-            </span>
+          {(t.integrations || []).slice(0, 4).map((int) => (
+            <IntegrationLogo key={int} id={int} />
           ))}
-          {(t.integrations || []).length > 3 && (
-            <span className="text-[10px] text-akili-charbon-mute">+{t.integrations.length - 3}</span>
+          {(t.integrations || []).length > 4 && (
+            <span className="text-[10px] text-akili-charbon-mute font-medium">+{t.integrations.length - 4}</span>
           )}
         </div>
         <span className="font-mono text-[11px] text-akili-success font-medium">{t.savings}</span>
