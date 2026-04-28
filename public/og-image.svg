@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" fill="none">
+  <defs>
+    <radialGradient id="halo-or" cx="0.85" cy="0.15" r="0.6">
+      <stop offset="0%" stop-color="#F2C94C" stop-opacity="0.45"/>
+      <stop offset="60%" stop-color="#F2C94C" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="halo-coral" cx="0.1" cy="0.95" r="0.55">
+      <stop offset="0%" stop-color="#FF6B5C" stop-opacity="0.32"/>
+      <stop offset="65%" stop-color="#FF6B5C" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="signature" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#FF6B5C"/>
+      <stop offset="50%"  stop-color="#F2C94C"/>
+      <stop offset="100%" stop-color="#F9F3E6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fond Indigo Nuit -->
+  <rect width="1200" height="630" fill="#0E1A3E"/>
+
+  <!-- Halos de marque -->
+  <rect width="1200" height="630" fill="url(#halo-or)"/>
+  <rect width="1200" height="630" fill="url(#halo-coral)"/>
+
+  <!-- Bande signature 3 blocs en haut -->
+  <rect x="0"    y="0" width="400" height="6" fill="#FF6B5C"/>
+  <rect x="400"  y="0" width="400" height="6" fill="#F2C94C"/>
+  <rect x="800"  y="0" width="400" height="6" fill="#F9F3E6"/>
+
+  <!-- Logo mark : carré or avec A -->
+  <g transform="translate(80, 110)">
+    <rect width="64" height="64" rx="14" fill="#F2C94C"/>
+    <text x="32" y="46" font-family="Cabinet Grotesk, Inter, sans-serif" font-size="38" font-weight="800" fill="#0E1A3E" text-anchor="middle">A</text>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="160" y="155" font-family="Cabinet Grotesk, Inter, sans-serif" font-size="34" font-weight="800" fill="#F9F3E6" letter-spacing="-1">Akili</text>
+
+  <!-- Eyebrow -->
+  <text x="80" y="240" font-family="Cabinet Grotesk, Inter, sans-serif" font-size="18" font-weight="700" fill="#F2C94C" letter-spacing="3.6">· NUIT &amp; LUMIÈRE ·</text>
+
+  <!-- Titre principal -->
+  <text x="80" y="320" font-family="Cabinet Grotesk, Inter, sans-serif" font-size="68" font-weight="800" fill="#F9F3E6" letter-spacing="-2.5">La sagesse qui se lève,</text>
+  <text x="80" y="395" font-family="Cabinet Grotesk, Inter, sans-serif" font-size="68" font-weight="800" letter-spacing="-2.5">
+    <tspan fill="#F9F3E6">en </tspan>
+    <tspan fill="#F2C94C">un seul clic.</tspan>
+  </text>
+
+  <!-- Sous-titre -->
+  <text x="80" y="455" font-family="Inter, sans-serif" font-size="22" font-weight="400" fill="#C8CDDC">
+    Boîte à outils d'automatisation conçue à Cotonou.
+  </text>
+  <text x="80" y="487" font-family="Inter, sans-serif" font-size="22" font-weight="400" fill="#C8CDDC">
+    Tout en français, sans bullshit, sans une ligne de code.
+  </text>
+
+  <!-- Footer URL + signature -->
+  <line x1="80" y1="540" x2="1120" y2="540" stroke="#1F2D52" stroke-width="1"/>
+  <text x="80" y="580" font-family="Cabinet Grotesk, Inter, sans-serif" font-size="18" font-weight="700" fill="#F9F3E6" letter-spacing="-0.4">akili.app</text>
+  <text x="1120" y="580" font-family="Cabinet Grotesk, Inter, sans-serif" font-size="14" font-weight="700" fill="#F2C94C" letter-spacing="2.8" text-anchor="end">COTONOU · LAGOS · PARIS</text>
+</svg>
