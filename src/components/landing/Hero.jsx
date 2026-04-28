@@ -116,15 +116,15 @@ export function Hero() {
                   size="lg"
                   variant="primary"
                   iconRight={<ArrowRight size={18} />}
-                  className="w-full sm:w-[230px] justify-center"
+                  className="w-full sm:w-[210px] justify-center whitespace-nowrap"
                 >
-                  Commencer maintenant
+                  Démarrer
                 </Button>
               </Link>
               <Button
                 size="lg"
                 variant="outline"
-                className="w-full sm:w-[230px] justify-center border-akili-papyrus/30 text-akili-papyrus hover:bg-akili-papyrus/10 hover:border-akili-papyrus/60"
+                className="w-full sm:w-[210px] justify-center whitespace-nowrap border-akili-papyrus/30 text-akili-papyrus hover:bg-akili-papyrus/10 hover:border-akili-papyrus/60"
                 iconLeft={<Play size={18} fill="currentColor" />}
                 onClick={() => setDemoOpen(true)}
               >
