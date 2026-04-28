@@ -157,6 +157,28 @@ export function ProductShowcase() {
 
               {/* Main */}
               <main className="p-6 bg-akili-papyrus relative">
+                {/* Pill ① — superposée sur la mockup, top-right de main, signale les KPI */}
+                <motion.span
+                  initial={{ opacity: 0, scale: 0.92, y: -4 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6, duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="hidden md:inline-flex absolute top-4 right-4 z-10 bg-akili-coral text-white px-2.5 py-1 rounded-pill font-display font-bold text-[10px] uppercase tracking-wider shadow-akili-coral"
+                >
+                  ① 4 KPI live
+                </motion.span>
+
+                {/* Pill ② — superposée sur la mockup, bottom-right de main, signale la heatmap */}
+                <motion.span
+                  initial={{ opacity: 0, scale: 0.92, y: 4 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.7, duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="hidden md:inline-flex absolute bottom-4 right-4 z-10 bg-akili-or text-akili-indigo px-2.5 py-1 rounded-pill font-display font-bold text-[10px] uppercase tracking-wider shadow-akili-or"
+                >
+                  ② Heatmap 12 sem
+                </motion.span>
+
                 <div className="flex items-baseline justify-between mb-5">
                   <div>
                     <h3 className="font-display font-extrabold text-xl tracking-[-0.02em] text-akili-charbon">
@@ -263,39 +285,35 @@ export function ProductShowcase() {
             </div>
           </div>
 
-          {/* Callouts annotés (desktop only — trop petit sur mobile) */}
-          <div className="hidden lg:block">
-            {/* Callout 1 — KPIs en temps réel */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-              className="absolute -left-4 xl:-left-12 top-[42%] max-w-[200px]"
-            >
-              <div className="bg-akili-coral text-white px-3 py-1.5 rounded-pill font-display font-bold text-[11px] uppercase tracking-wider shadow-akili-coral inline-block">
-                ① 4 KPI live
-              </div>
-              <p className="font-sans text-[12px] text-white bg-akili-indigo/95 px-3 py-2 mt-2 rounded-md leading-snug shadow-akili-sm">
-                Actifs, runs du mois, taux de succès, heures gagnées — actualisés toutes les 30 s.
-              </p>
-            </motion.div>
+        </motion.div>
 
-            {/* Callout 2 — heatmap */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.7, duration: 0.5 }}
-              className="absolute -right-4 xl:-right-12 bottom-[18%] max-w-[200px] text-right"
-            >
-              <div className="bg-akili-or text-akili-indigo px-3 py-1.5 rounded-pill font-display font-bold text-[11px] uppercase tracking-wider shadow-akili-or inline-block">
-                ② Heatmap 12 sem
-              </div>
-              <p className="font-sans text-[12px] text-white bg-akili-indigo/95 px-3 py-2 mt-2 rounded-md leading-snug shadow-akili-sm">
-                Une cellule = un jour. Plus c'est doré, plus tu as automatisé.
-              </p>
-            </motion.div>
+        {/* Callouts annotés — placés SOUS la mockup pour ne pas se superposer
+            (anciennement en absolute, qui overlapait le dashboard). */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="hidden md:grid grid-cols-2 gap-10 lg:gap-16 mt-10 max-w-4xl mx-auto"
+        >
+          {/* Callout 1 — KPIs */}
+          <div>
+            <div className="bg-akili-coral text-white px-3 py-1.5 rounded-pill font-display font-bold text-[11px] uppercase tracking-wider shadow-akili-coral inline-block">
+              ① 4 KPI live
+            </div>
+            <p className="font-sans text-[14px] text-akili-charbon-soft mt-3 leading-relaxed">
+              Actifs, runs du mois, taux de succès, heures gagnées — actualisés toutes les 30 s.
+            </p>
+          </div>
+
+          {/* Callout 2 — heatmap */}
+          <div className="text-right">
+            <div className="bg-akili-or text-akili-indigo px-3 py-1.5 rounded-pill font-display font-bold text-[11px] uppercase tracking-wider shadow-akili-or inline-block">
+              ② Heatmap 12 sem
+            </div>
+            <p className="font-sans text-[14px] text-akili-charbon-soft mt-3 leading-relaxed">
+              Une cellule = un jour. Plus c'est doré, plus tu as automatisé.
+            </p>
           </div>
         </motion.div>
 
@@ -305,7 +323,7 @@ export function ProductShowcase() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.8 }}
-          className="flex flex-wrap items-center justify-center gap-3 mt-12"
+          className="flex flex-col items-center gap-3 mt-12"
         >
           <a
             href="/signup"
@@ -314,8 +332,8 @@ export function ProductShowcase() {
             Voir le vrai dashboard en live
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
           </a>
-          <span className="font-sans text-sm text-akili-charbon-mute">
-            · Sans carte · Compte gratuit · 30 secondes
+          <span className="font-sans text-sm text-akili-charbon-mute text-center">
+            Sans carte · Compte gratuit · 30 secondes
           </span>
         </motion.div>
       </Container>

@@ -221,14 +221,14 @@ export function TemplatesGallery() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-wrap items-center justify-center gap-4 mt-14"
+          className="flex flex-col items-center gap-3 mt-14"
         >
           <Link to="/signup">
             <Button variant="primary" size="lg" iconRight={<ArrowRight size={18} />}>
               Voir les 20 templates
             </Button>
           </Link>
-          <span className="text-sm text-akili-charbon-mute">
+          <span className="text-sm text-akili-charbon-mute text-center">
             Tous gratuits, branchables en quelques clics.
           </span>
         </motion.div>

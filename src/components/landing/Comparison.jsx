@@ -266,7 +266,7 @@ export function Comparison() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
-          className="flex flex-wrap items-center justify-center gap-4 mt-12"
+          className="flex flex-col items-center gap-3 mt-12"
         >
           <a
             href="/signup"
@@ -275,7 +275,7 @@ export function Comparison() {
             Essayer Akili gratuitement
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
           </a>
-          <span className="font-sans text-sm text-akili-charbon-mute">
+          <span className="font-sans text-sm text-akili-charbon-mute text-center">
             14 jours · sans CB · annulation 1 clic
           </span>
         </motion.div>
