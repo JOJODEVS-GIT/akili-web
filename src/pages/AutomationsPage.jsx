@@ -179,7 +179,7 @@ export default function AutomationsPage() {
             Tout ce qui tourne <span className="text-akili-charbon-mute">à ta place.</span>
           </h1>
         </div>
-        <Button variant="primary" iconLeft={<Plus size={16} />} onClick={newModal.open}>
+        <Button variant="primary" shape="pill" iconLeft={<Plus size={16} />} onClick={newModal.open}>
           Nouvelle automatisation
         </Button>
       </div>
