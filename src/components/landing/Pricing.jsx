@@ -156,7 +156,7 @@ export function Pricing() {
               </ul>
 
               <Link to={plan.id === 'team' ? '#contact' : '/signup'} className="block mt-8">
-                <Button variant={plan.ctaVariant} fullWidth size="md">
+                <Button variant={plan.ctaVariant} fullWidth size="md" shape="pill">
                   {plan.cta}
                 </Button>
               </Link>
