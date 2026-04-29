@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { List as Menu, MagnifyingGlass as Search, Bell, User, GearSix as Settings, SignOut as LogOut } from '@phosphor-icons/react';
 import { Dropdown } from '@/components/ui/Dropdown';
@@ -20,16 +20,8 @@ export function Topbar({
   const [notifOpen, setNotifOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const onKey = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        inputRef.current?.focus();
-      }
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, []);
+  // Note : Cmd+K est désormais géré par la CommandPalette globale (DashboardLayout).
+  // L'input local de la topbar reste utilisable pour une recherche contextuelle.
 
   return (
     <div
