@@ -53,6 +53,7 @@ export default function TermsPage() {
       </P>
 
       <H2 id="paiement">5. Plans payants et facturation</H2>
+      {/* TODO sync : garder ces prix synchro avec src/components/landing/Pricing.jsx (PLANS[].monthly). */}
       <P>
         Le plan Atelier est gratuit à vie. Les plans Pro (12 €/mois) et Team (39 €/mois) sont facturés par prélèvement automatique mensuel ou annuel. Tu peux annuler à tout moment ; l'annulation prend effet à la fin de la période payée.
       </P>

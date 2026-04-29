@@ -93,12 +93,12 @@ export function IntegrationsMarquee() {
             Intégrations
           </span>
           <h2 className="font-display font-extrabold text-[32px] sm:text-[40px] leading-[1.1] tracking-[-0.02em] mt-3 text-balance">
-            Branche-toi à tout ton stack,
+            Connecte ton stack
             <span className="block text-akili-coral">en deux clics.</span>
           </h2>
           <p className="font-sans text-base leading-relaxed text-akili-charbon-soft mt-4 max-w-lg mx-auto">
             Nos intégrations officielles couvrent ton quotidien — du paiement à la prod,
-            du mail au cal.
+            du mail au calendrier.
           </p>
         </motion.div>
       </Container>

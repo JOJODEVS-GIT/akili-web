@@ -19,7 +19,7 @@ const BLOCKS = [
       'Conditions en français naturel',
       'Quick replies guidées dans le builder',
       'Prévisualisation live de la logique',
-      'Templates pré-faits pour 80% des cas',
+      'Templates prêts pour 80 % des cas',
     ],
     Icon: Lightning,
     accent: 'coral',
