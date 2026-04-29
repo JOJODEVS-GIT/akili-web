@@ -127,7 +127,7 @@ export function SpokeHero({
                     variant="primary"
                     shape="pill"
                     iconRight={<ArrowRight size={18} />}
-                    className="w-full sm:w-[210px] justify-center whitespace-nowrap"
+                    className="w-full sm:w-auto sm:min-w-[210px] justify-center whitespace-nowrap"
                   >
                     {cta.label}
                   </Button>
@@ -139,7 +139,7 @@ export function SpokeHero({
                       variant="outline"
                       shape="pill"
                       className={cn(
-                        'w-full sm:w-[210px] justify-center whitespace-nowrap',
+                        'w-full sm:w-auto sm:min-w-[210px] justify-center whitespace-nowrap',
                         dark && 'border-akili-papyrus/30 text-akili-papyrus hover:bg-akili-papyrus/10'
                       )}
                     >
