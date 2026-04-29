@@ -46,7 +46,14 @@ export function LoginForm() {
         Connexion
       </span>
       <h1 className="font-display font-extrabold text-[40px] tracking-[-0.03em] leading-[1.05] mt-3">
-        Heureux de te <span className="text-akili-coral">revoir</span>.
+        Heureux de te{' '}
+        <span
+          className="bg-gradient-to-r from-akili-coral via-akili-or to-akili-coral bg-clip-text text-transparent animate-gradient-shift"
+          style={{ backgroundSize: '200% 200%' }}
+        >
+          revoir
+        </span>
+        .
       </h1>
       <p className="font-sans text-[15px] text-akili-charbon-soft mt-3 leading-[1.55]">
         Reprends là où tu en étais.
@@ -79,7 +86,7 @@ export function LoginForm() {
           </Link>
         </div>
 
-        <Button type="submit" variant="primary" fullWidth size="md" loading={loading}>
+        <Button type="submit" variant="primary" fullWidth size="md" shape="pill" loading={loading}>
           {loading ? 'Un instant…' : 'Se connecter'}
         </Button>
 
