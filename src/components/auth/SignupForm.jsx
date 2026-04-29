@@ -90,7 +90,13 @@ export function SignupForm() {
         Inscription
       </span>
       <h1 className="font-display font-extrabold text-[40px] tracking-[-0.03em] leading-[1.05] mt-3">
-        Bienvenue. <span className="text-akili-coral">On commence&nbsp;?</span>
+        Bienvenue.{' '}
+        <span
+          className="bg-gradient-to-r from-akili-coral via-akili-or to-akili-coral bg-clip-text text-transparent animate-gradient-shift"
+          style={{ backgroundSize: '200% 200%' }}
+        >
+          On commence&nbsp;?
+        </span>
       </h1>
       <p className="font-sans text-[15px] text-akili-charbon-soft mt-3 leading-[1.55]">
         Crée ton espace Akili. Pas de carte bancaire, pas de démo commerciale.
@@ -132,7 +138,7 @@ export function SignupForm() {
           <PasswordStrength password={form.password} />
         </div>
 
-        <Button type="submit" variant="primary" fullWidth size="md" loading={loading} className="mt-2">
+        <Button type="submit" variant="primary" fullWidth size="md" shape="pill" loading={loading} className="mt-2">
           {loading ? 'On prépare ton espace…' : 'Créer mon compte'}
         </Button>
 

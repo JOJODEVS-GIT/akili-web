@@ -69,7 +69,13 @@ export default function ForgotPasswordPage() {
             Mot de passe oublié
           </span>
           <h1 className="font-display font-extrabold text-[40px] tracking-[-0.03em] leading-[1.05] mt-3">
-            Pas de panique. <span className="text-akili-coral">On répare ça.</span>
+            Pas de panique.{' '}
+            <span
+              className="bg-gradient-to-r from-akili-coral via-akili-or to-akili-coral bg-clip-text text-transparent animate-gradient-shift"
+              style={{ backgroundSize: '200% 200%' }}
+            >
+              On répare ça.
+            </span>
           </h1>
           <p className="font-sans text-[15px] text-akili-charbon-soft mt-3 leading-[1.55]">
             Entre l'email de ton compte. On t'envoie un lien pour repartir.
@@ -87,7 +93,7 @@ export default function ForgotPasswordPage() {
               autoFocus
               error={error}
             />
-            <Button type="submit" variant="primary" fullWidth size="md" loading={loading}>
+            <Button type="submit" variant="primary" fullWidth size="md" shape="pill" loading={loading}>
               {loading ? 'On envoie ça...' : 'Recevoir le lien'}
             </Button>
           </form>
