@@ -7,6 +7,7 @@ import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 import { CommandPalette } from './CommandPalette';
 import { DemoBanner } from './DemoBanner';
+import { WelcomeModal } from './WelcomeModal';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDisclosure } from '@/hooks/useDisclosure';
 
@@ -73,6 +74,9 @@ export function DashboardLayout({ children, query, onQueryChange }) {
 
       {/* Palette de commandes globale (Cmd+K) — disponible sur toutes les pages /app/* */}
       <CommandPalette />
+
+      {/* Modal de bienvenue — s'affiche 1 fois au premier login (localStorage) */}
+      <WelcomeModal />
     </div>
   );
 }
