@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
 import { CommandPalette } from './CommandPalette';
+import { DemoBanner } from './DemoBanner';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDisclosure } from '@/hooks/useDisclosure';
 
@@ -61,6 +62,9 @@ export function DashboardLayout({ children, query, onQueryChange }) {
           onMenuOpen={sidebar.open}
           onLogout={handleLogout}
         />
+
+        {/* Bandeau "Mode démo" si ?demo=true est dans l'URL */}
+        <DemoBanner />
 
         <div className="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-10 xl:px-12 2xl:px-16 py-6 lg:py-8">
           {children}
