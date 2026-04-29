@@ -13,7 +13,7 @@ const FEATURES = [
   {
     n: '01',
     Icon: Zap,
-    title: 'Intelligent',
+    title: 'Lucide',
     body: "Akili apprend tes flux et propose des automatisations qui ont du sens. Pas de no-code bricolé : du vrai discernement.",
     accentHex: '#FF6B5C',
     badgeBorderClass: 'border-akili-coral',
@@ -27,7 +27,7 @@ const FEATURES = [
     n: '02',
     Icon: Compass,
     title: 'Africain',
-    body: "Conçu en Afrique pour le monde. Latence faible, monnaies locales, fuseaux qui font sens.",
+    body: "Conçu à Cotonou. Latence faible, monnaies locales, fuseaux qui font sens.",
     accentHex: '#0E1A3E',
     badgeBorderClass: 'border-akili-indigo',
     cardBorderClass: 'border-akili-indigo',

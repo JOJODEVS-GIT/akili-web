@@ -31,5 +31,5 @@ export function humanizeAuthError(error) {
   }
 
   // Fallback générique
-  return "Une erreur est survenue. Réessaie dans un instant.";
+  return "Une erreur est survenue de notre côté. Réessaie dans un instant — si ça persiste, écris-nous à support@akili.app.";
 }

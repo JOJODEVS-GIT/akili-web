@@ -18,7 +18,7 @@ const PLANS = [
     id: 'atelier',
     name: 'Atelier',
     monthly: 0,
-    tagline: 'Pour découvrir et essayer.',
+    tagline: 'Pour mettre les mains dedans, sans engagement.',
     coverage: [
       { label: 'Workflows actifs', value: '5' },
       { label: 'Exécutions / mois', value: '500' },
@@ -37,7 +37,7 @@ const PLANS = [
     id: 'pro',
     name: 'Pro',
     monthly: 12,
-    tagline: 'Pour les indépendants et petites équipes.',
+    tagline: 'Pour les indés qui ne veulent plus passer leurs dimanches sur Stripe.',
     coverage: [
       { label: 'Workflows actifs', value: '∞' },
       { label: 'Exécutions / mois', value: '∞' },
@@ -57,7 +57,7 @@ const PLANS = [
     id: 'team',
     name: 'Team',
     monthly: 39,
-    tagline: 'Pour les agences et les PMEs.',
+    tagline: 'Pour les agences et PMEs qui ont besoin de gouvernance.',
     coverage: [
       { label: 'Workflows actifs', value: '∞' },
       { label: 'Utilisateurs', value: '10' },
@@ -69,7 +69,7 @@ const PLANS = [
       'SSO + permissions granulaires',
       'Account manager dédié',
     ],
-    cta: 'Nous contacter',
+    cta: 'Parler à l\'équipe',
     theme: 'dark',
     popular: false,
   },

@@ -107,7 +107,7 @@ export function Hero() {
             >
               <span className="block">La sagesse qui se lève,</span>
               <span className="block mt-2 text-akili-papyrus/85" style={{ fontSize: '0.86em' }}>
-                en <span className="text-akili-or">un seul clic</span>.
+                en <span className="text-akili-or">une commande</span>.
               </span>
             </motion.h1>
 
@@ -118,8 +118,8 @@ export function Hero() {
               custom={2}
               className="font-sans text-lg lg:text-xl leading-relaxed mt-6 max-w-[560px] text-akili-indigo-100"
             >
-              Akili automatise les tâches informatiques répétitives — uploads, factures, déploiements.
-              Ce qui prend des heures à la main devient une commande, puis un réflexe.
+              Akili automatise les corvées du lundi matin — factures, uploads, déploiements.
+              Ce qui te prenait des heures devient une commande, puis un réflexe.
             </motion.p>
 
             <motion.div
@@ -166,7 +166,7 @@ export function Hero() {
                   <CountUp to={stats.hours} /> h
                 </div>
                 <div className="font-sans text-[12px] text-akili-charbon-mute mt-1.5 leading-tight">
-                  économisées par mois en moyenne
+                  économisées par utilisateur, par mois
                 </div>
               </div>
 

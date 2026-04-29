@@ -24,7 +24,7 @@ import { cn } from '@/lib/cn';
 const PRODUCT_DROPDOWN = [
   {
     label: 'Tour produit',
-    description: 'Mockup complet du dashboard et features',
+    description: 'Aperçu interactif du dashboard et des fonctionnalités',
     href: '/produit',
     Icon: Cube,
     accent: 'coral',

@@ -127,7 +127,7 @@ export function Footer() {
           {/* Newsletter */}
           <div>
             <h4 className="font-display font-bold text-xs tracking-[0.1em] uppercase text-akili-or">
-              Reste informé
+              Reçois la lettre Akili
             </h4>
             <p className="font-sans text-[13px] mt-3 leading-relaxed text-akili-charbon-mute">
               Un email par mois. Pas de spam. Promis.

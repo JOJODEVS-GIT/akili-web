@@ -115,7 +115,7 @@ export function FAQ() {
             Ce qu'on nous demande le plus.
           </h2>
           <p className="font-sans text-base sm:text-lg leading-relaxed text-akili-charbon-soft mt-5">
-            Sécurité, prix, comparaisons — les vraies questions, sans bullshit.
+            Sécurité, prix, comparaisons — les vraies questions, sans détour.
           </p>
         </motion.div>
 

@@ -7,7 +7,7 @@ const STEPS = [
     n: '01',
     Icon: MessageSquare,
     title: 'Décris ce que tu veux automatiser',
-    body: "En français, en swahili, en commandes. Akili comprend et propose la structure.",
+    body: "En français, en commandes naturelles. Akili comprend, et propose la structure du flux.",
   },
   {
     n: '02',
