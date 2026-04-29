@@ -5,6 +5,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
+import { CommandPalette } from './CommandPalette';
 import { useAuth } from '@/contexts/AuthContext';
 import { useDisclosure } from '@/hooks/useDisclosure';
 
@@ -60,6 +61,9 @@ export function DashboardLayout({ children, query, onQueryChange }) {
           {children}
         </div>
       </main>
+
+      {/* Palette de commandes globale (Cmd+K) — disponible sur toutes les pages /app/* */}
+      <CommandPalette />
     </div>
   );
 }
