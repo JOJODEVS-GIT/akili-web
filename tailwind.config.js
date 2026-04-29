@@ -87,6 +87,19 @@ export default {
         'marquee-reverse':      { '0%': { transform: 'translateX(-50%)' }, '100%': { transform: 'translateX(0)' } },
         'marquee-slow':         { '0%': { transform: 'translateX(0)' },    '100%': { transform: 'translateX(-50%)' } },
         'marquee-slow-reverse': { '0%': { transform: 'translateX(-50%)' }, '100%': { transform: 'translateX(0)' } },
+        // ━━━ Patterns volés à Activepieces (mais avec nos couleurs) ━━━
+        'gradient-shift': {
+          '0%, 100%': { 'background-position': '0% 50%' },
+          '50%':      { 'background-position': '100% 50%' },
+        },
+        'sparkle': {
+          '0%, 100%': { opacity: 0.4, transform: 'scale(0.9)' },
+          '50%':      { opacity: 1,   transform: 'scale(1.1)' },
+        },
+        'highlight-sweep': {
+          '0%':   { 'background-position': '-200% 0' },
+          '100%': { 'background-position': '200% 0' },
+        },
       },
       animation: {
         'fade-in':   'fade-in 250ms cubic-bezier(0.25, 0.1, 0.25, 1)',
@@ -97,6 +110,10 @@ export default {
         'marquee-reverse':      'marquee-reverse 50s linear infinite',
         'marquee-slow':         'marquee-slow 80s linear infinite',
         'marquee-slow-reverse': 'marquee-slow-reverse 90s linear infinite',
+        // Activepieces-inspired
+        'gradient-shift':  'gradient-shift 6s ease-in-out infinite',
+        'sparkle':         'sparkle 2.4s ease-in-out infinite',
+        'highlight-sweep': 'highlight-sweep 3s linear infinite',
       },
     },
   },

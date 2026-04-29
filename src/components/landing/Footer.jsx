@@ -11,28 +11,40 @@ const COLS = [
   {
     title: 'Produit',
     links: [
-      { label: 'Fonctionnalités', to: '/#produit' },
+      { label: 'Tour produit',    to: '/produit' },
+      { label: 'Templates',       to: '/templates' },
+      { label: 'Intégrations',    to: '/integrations' },
+      { label: 'Sécurité',        to: '/securite' },
       { label: 'Tarifs',          to: '/#tarifs' },
-      { label: 'Changelog',       to: '/changelog' },
-      { label: 'Statut',          to: '/status' },
+    ],
+  },
+  {
+    title: 'Templates populaires',
+    links: [
+      { label: 'Backup Drive',          to: '/templates' },
+      { label: 'Factures Stripe → PDF', to: '/templates' },
+      { label: 'Récap Slack 8h',        to: '/templates' },
+      { label: 'Forward emails VIP',    to: '/templates' },
+      { label: 'Déploiement Vercel',    to: '/templates' },
+      { label: 'Voir tout →',           to: '/templates' },
     ],
   },
   {
     title: 'Ressources',
     links: [
-      { label: 'Documentation',   to: '/app/docs' },
-      { label: 'Cas d\'usage',     to: '/#cas-usage' },
-      { label: 'API',             to: '/app/docs' },
-      { label: 'Contact',         to: '/contact' },
+      { label: 'Documentation',  to: '/app/docs' },
+      { label: 'Manifesto',      to: '/manifesto' },
+      { label: 'Changelog',      to: '/changelog' },
+      { label: 'Statut',         to: '/status' },
     ],
   },
   {
     title: 'Akili',
     links: [
-      { label: 'À propos',        to: '/about' },
-      { label: 'Contact',         to: '/contact' },
-      { label: 'Carrières',       to: '/contact' },
-      { label: 'Mentions légales',to: '/legal/notice' },
+      { label: 'À propos',          to: '/about' },
+      { label: 'Akili vs Zapier',   to: '/comparaisons/zapier' },
+      { label: 'Contact équipe',    to: '/contact-equipe' },
+      { label: 'Mentions légales',  to: '/legal/notice' },
     ],
   },
 ];
@@ -67,7 +79,7 @@ export function Footer() {
       </div>
 
       <Container size="xl" className="pt-22 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-[1.4fr_repeat(3,1fr)_1.3fr] gap-10 lg:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-[1.4fr_repeat(4,1fr)_1.3fr] gap-10 lg:gap-10">
           {/* Bio + social */}
           <div>
             <Logo size="md" onDark />

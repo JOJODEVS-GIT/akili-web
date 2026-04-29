@@ -133,6 +133,7 @@ export function Hero() {
                 <Button
                   size="lg"
                   variant="primary"
+                  shape="pill"
                   iconRight={<ArrowRight size={18} />}
                   className="w-full sm:w-[210px] justify-center whitespace-nowrap"
                 >
@@ -142,6 +143,7 @@ export function Hero() {
               <Button
                 size="lg"
                 variant="outline"
+                shape="pill"
                 className="w-full sm:w-[210px] justify-center whitespace-nowrap border-akili-papyrus/30 text-akili-papyrus hover:bg-akili-papyrus/10 hover:border-akili-papyrus/60"
                 iconLeft={<Play size={18} fill="currentColor" />}
                 onClick={() => setDemoOpen(true)}

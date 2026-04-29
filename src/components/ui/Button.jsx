@@ -2,6 +2,11 @@
  * Button — Composant CTA d'Akili
  * Variants : primary (corail) / secondary (indigo) / ghost / outline / or
  * Sizes    : sm / md / lg
+ * Shape    : 'default' (rounded-akili 8px) / 'pill' (rounded-full)
+ *
+ * Tip : pour les CTAs landing/marketing, préférer shape="pill" (style
+ * inspiré d'Activepieces). Par défaut on garde rounded-akili pour
+ * compatibilité avec le dashboard et les forms.
  */
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
@@ -25,9 +30,15 @@ const SIZES = {
   lg: 'h-14 px-8 text-[17px] gap-3',
 };
 
+const SHAPES = {
+  default: 'rounded-akili',
+  pill:    'rounded-full',
+};
+
 export function Button({
   variant = 'primary',
   size = 'md',
+  shape = 'default',
   loading = false,
   disabled = false,
   fullWidth = false,
@@ -49,9 +60,10 @@ export function Button({
       transition={{ duration: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
       disabled={isDisabled}
       className={cn(
-        'inline-flex items-center justify-center font-display font-bold rounded-akili',
+        'inline-flex items-center justify-center font-display font-bold',
         'transition-all duration-200 ease-akili',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-akili-coral focus-visible:ring-offset-2',
+        SHAPES[shape],
         VARIANTS[variant],
         SIZES[size],
         fullWidth && 'w-full',

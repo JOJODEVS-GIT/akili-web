@@ -55,12 +55,13 @@ export function CTA() {
           className="mt-10 inline-flex flex-wrap gap-3 justify-center"
         >
           <Link to="/signup">
-            <Button size="lg" variant="primary">Créer mon compte</Button>
+            <Button size="lg" variant="primary" shape="pill">Créer mon compte</Button>
           </Link>
           <Link to="/login">
             <Button
               size="lg"
               variant="outline"
+              shape="pill"
               className="border-akili-papyrus/30 text-akili-papyrus hover:bg-akili-papyrus/10 hover:border-akili-papyrus/60"
             >
               J'ai déjà un compte

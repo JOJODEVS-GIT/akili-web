@@ -34,6 +34,15 @@ const PrivacyPage   = lazy(() => import('@/pages/legal/PrivacyPage'));
 const CookiesPage   = lazy(() => import('@/pages/legal/CookiesPage'));
 const NoticePage    = lazy(() => import('@/pages/legal/NoticePage'));
 
+// Pages marketing spokes — multipage architecture (PR #18)
+const ProduitPage       = lazy(() => import('@/pages/marketing/ProduitPage'));
+const TemplatesPage     = lazy(() => import('@/pages/marketing/TemplatesPage'));
+const IntegrationsPage  = lazy(() => import('@/pages/marketing/IntegrationsPage'));
+const SecuritePage      = lazy(() => import('@/pages/marketing/SecuritePage'));
+const ManifestoPage     = lazy(() => import('@/pages/marketing/ManifestoPage'));
+const VsZapierPage      = lazy(() => import('@/pages/marketing/VsZapierPage'));
+const ContactEquipePage = lazy(() => import('@/pages/marketing/ContactEquipePage'));
+
 export default function App() {
   return (
     <AuthProvider>
@@ -56,6 +65,15 @@ export default function App() {
               <Route path="/legal/privacy"   element={<PrivacyPage />} />
               <Route path="/legal/cookies"   element={<CookiesPage />} />
               <Route path="/legal/notice"    element={<NoticePage />} />
+
+              {/* Pages marketing spokes — multipage architecture */}
+              <Route path="/produit"             element={<ProduitPage />} />
+              <Route path="/templates"           element={<TemplatesPage />} />
+              <Route path="/integrations"        element={<IntegrationsPage />} />
+              <Route path="/securite"            element={<SecuritePage />} />
+              <Route path="/manifesto"           element={<ManifestoPage />} />
+              <Route path="/comparaisons/zapier" element={<VsZapierPage />} />
+              <Route path="/contact-equipe"      element={<ContactEquipePage />} />
 
               {/* App protégées */}
               <Route path="/app"             element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
