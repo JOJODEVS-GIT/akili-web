@@ -17,8 +17,9 @@ export default function PrivacyPage() {
       </Note>
 
       <H2 id="responsable">1. Qui est responsable ?</H2>
+      {/* TODO LEGAL : remplir le numéro RCCM et l'adresse du siège avant le lancement public. */}
       <P>
-        Le responsable du traitement est <Strong>Akili SAS</Strong>, immatriculée au RCCM de Cotonou sous le numéro [à compléter], dont le siège est situé [adresse]. Notre Data Protection Officer (DPO) : <Strong>dpo@akili.app</Strong>.
+        Le responsable du traitement est <Strong>Akili SAS</Strong>, immatriculée au RCCM de Cotonou sous le numéro <Strong>RCCM-RB-COT-2026-XXXXXX</Strong> (en cours d'immatriculation), dont le siège est situé à <Strong>Cotonou, Bénin</Strong>. Notre Data Protection Officer (DPO) : <Strong>dpo@akili.app</Strong>.
       </P>
 
       <H2 id="donnees">2. Quelles données on collecte</H2>

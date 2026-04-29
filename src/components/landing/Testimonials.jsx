@@ -78,7 +78,7 @@ const QUOTES = [
     tone: 'coral',
   },
   {
-    body: "OAuth officiel partout, hébergement Frankfurt, audit log complet. Pour un produit pensé en Afrique, le niveau sécu est sérieux.",
+    body: "OAuth officiel partout, hébergement Frankfurt, audit log complet. Le niveau sécu est aligné avec ce que j'attends d'un outil pro.",
     name: 'Ibrahim Touré',
     role: 'Dev backend solo · Bamako',
     flag: '🇲🇱',
