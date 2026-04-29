@@ -224,7 +224,7 @@ export function TemplatesGallery() {
           className="flex flex-col items-center gap-3 mt-14"
         >
           <Link to="/signup">
-            <Button variant="primary" size="lg" iconRight={<ArrowRight size={18} />}>
+            <Button variant="primary" size="lg" shape="pill" iconRight={<ArrowRight size={18} />}>
               Voir les 20 templates
             </Button>
           </Link>

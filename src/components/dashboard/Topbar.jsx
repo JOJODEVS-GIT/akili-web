@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { List as Menu, MagnifyingGlass as Search, Bell, User, GearSix as Settings, SignOut as LogOut } from '@phosphor-icons/react';
 import { Dropdown } from '@/components/ui/Dropdown';
@@ -20,16 +20,8 @@ export function Topbar({
   const [notifOpen, setNotifOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const onKey = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        inputRef.current?.focus();
-      }
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, []);
+  // Note : Cmd+K est désormais géré par la CommandPalette globale (DashboardLayout).
+  // L'input local de la topbar reste utilisable pour une recherche contextuelle.
 
   return (
     <div
@@ -51,22 +43,23 @@ export function Topbar({
           <Menu size={18} />
         </button>
 
-        {/* Search bar — width fixe, plus de flex-1 */}
-        <div className="relative w-full max-w-[340px]">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-akili-charbon-mute pointer-events-none">
-            <Search size={16} />
+        {/* Search bar — clickable, ouvre la CommandPalette globale (Cmd+K) */}
+        <button
+          type="button"
+          onClick={() => {
+            // Trigger CommandPalette via keyboard event
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }));
+          }}
+          className="relative w-full max-w-[340px] h-[38px] pl-9 pr-12 bg-white border border-akili-line rounded-full font-sans text-[13px] text-akili-charbon-mute text-left outline-none hover:border-akili-or focus:border-akili-or focus:ring-4 focus:ring-akili-or/20 transition-all duration-200"
+        >
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-akili-charbon-mute">
+            <Search size={16} weight="bold" />
           </span>
-          <input
-            ref={inputRef}
-            value={query}
-            onChange={(e) => onQueryChange?.(e.target.value)}
-            placeholder="Chercher une automatisation..."
-            className="w-full h-[38px] pl-9 pr-12 bg-white border border-akili-line rounded-akili font-sans text-[13px] text-akili-charbon outline-none focus:border-akili-indigo focus:ring-4 focus:ring-akili-indigo-50 transition-all duration-200"
-          />
-          <kbd className="hidden sm:inline-flex absolute right-2 top-1/2 -translate-y-1/2 items-center gap-0.5 font-mono text-[10px] px-1.5 py-0.5 rounded bg-akili-papyrus-deep text-akili-charbon-mute font-medium pointer-events-none">
+          <span>Recherche rapide…</span>
+          <kbd className="hidden sm:inline-flex absolute right-2 top-1/2 -translate-y-1/2 items-center gap-0.5 font-mono text-[10px] px-1.5 py-0.5 rounded bg-akili-papyrus-deep text-akili-charbon-mute font-medium">
             ⌘K
           </kbd>
-        </div>
+        </button>
 
         {/* Notifications */}
         <div className="relative">

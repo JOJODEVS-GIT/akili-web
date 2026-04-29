@@ -60,39 +60,50 @@ export function CookieBanner() {
             transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
             role="dialog"
             aria-label="Bannière cookies"
-            className="fixed bottom-4 inset-x-4 sm:bottom-5 sm:left-5 sm:right-auto sm:max-w-md z-[90] bg-white border border-akili-line rounded-akili shadow-akili-xl p-5"
+            className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[90] w-[calc(100%-2rem)] max-w-3xl"
           >
-            <div className="flex items-start gap-3">
-              <span className="shrink-0 w-10 h-10 rounded-akili bg-akili-or-50 text-akili-or-700 flex items-center justify-center">
-                <Cookie size={18} />
-              </span>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-display font-extrabold text-base">Un mot sur les cookies</h3>
-                <p className="text-sm text-akili-charbon-soft mt-1.5 leading-relaxed">
-                  Akili utilise <strong>3 cookies essentiels</strong> pour faire tourner ton compte. Pas de tracker publicitaire, pas de partage avec des tiers.{' '}
-                  <Link to="/legal/cookies" className="text-akili-coral font-semibold hover:underline">
-                    En savoir plus
-                  </Link>.
+            {/* Card avec backdrop blur — pattern moderne (Activepieces / Stripe / Linear) */}
+            <div
+              className="rounded-full border border-akili-line shadow-akili-xl px-5 py-3 flex flex-col md:flex-row md:items-center gap-3 md:gap-4"
+              style={{
+                background: 'rgba(255, 255, 255, 0.92)',
+                backdropFilter: 'blur(16px)',
+                WebkitBackdropFilter: 'blur(16px)',
+              }}
+            >
+              {/* Texte */}
+              <div className="flex items-center gap-2.5 flex-1 min-w-0">
+                <Cookie size={18} weight="duotone" className="shrink-0 text-akili-or-700" />
+                <p className="text-[13px] text-akili-charbon-soft leading-snug">
+                  On utilise <strong className="text-akili-charbon">quelques cookies essentiels</strong> pour faire tourner ton compte. Aucun tracker publicitaire.{' '}
+                  <Link to="/legal/cookies" className="text-akili-coral font-semibold hover:underline whitespace-nowrap">
+                    En savoir plus →
+                  </Link>
                 </p>
               </div>
-            </div>
 
-            <div className="mt-5 flex flex-col sm:flex-row gap-2">
-              <Button size="sm" variant="primary" fullWidth onClick={acceptAll}>
-                Tout accepter
-              </Button>
-              <Button size="sm" variant="outline" fullWidth onClick={rejectNonEssential}>
-                Tout refuser
-              </Button>
-              <Button
-                size="sm"
-                variant="ghost"
-                fullWidth
-                onClick={settings.open}
-                iconLeft={<Settings size={14} />}
-              >
-                Personnaliser
-              </Button>
+              {/* Boutons compact, pill, alignés à droite */}
+              <div className="flex flex-wrap items-center gap-2 shrink-0">
+                <button
+                  onClick={settings.open}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-display font-bold text-akili-charbon-soft hover:text-akili-charbon hover:bg-akili-papyrus-deep transition-all"
+                >
+                  <Settings size={12} weight="bold" />
+                  Personnaliser
+                </button>
+                <button
+                  onClick={rejectNonEssential}
+                  className="px-4 py-1.5 rounded-full text-[12px] font-display font-bold text-akili-charbon border border-akili-line hover:border-akili-charbon hover:bg-akili-papyrus-deep transition-all whitespace-nowrap"
+                >
+                  Tout refuser
+                </button>
+                <button
+                  onClick={acceptAll}
+                  className="px-4 py-1.5 rounded-full text-[12px] font-display font-bold text-white bg-akili-coral hover:bg-akili-coral-700 hover:shadow-akili-coral transition-all whitespace-nowrap"
+                >
+                  Tout accepter
+                </button>
+              </div>
             </div>
           </motion.div>
         )}
