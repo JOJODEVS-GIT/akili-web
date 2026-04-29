@@ -10,11 +10,13 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useDisclosure } from '@/hooks/useDisclosure';
 
 const ROUTES = {
-  home:    '/app',
-  auto:    '/app/automations',
-  runs:    '/app/runs',
-  tools:   '/app/connections',
-  docs:    '/app/docs',
+  home:     '/app',
+  auto:     '/app/automations',
+  runs:     '/app/runs',
+  tools:    '/app/connections',
+  docs:     '/app/docs',
+  profile:  '/app/profile',
+  settings: '/app/settings',
 };
 
 const PATH_TO_ID = {
@@ -23,6 +25,8 @@ const PATH_TO_ID = {
   '/app/runs':         'runs',
   '/app/connections':  'tools',
   '/app/docs':         'docs',
+  '/app/profile':      'profile',
+  '/app/settings':     'settings',
 };
 
 export function DashboardLayout({ children, query, onQueryChange }) {
@@ -46,6 +50,7 @@ export function DashboardLayout({ children, query, onQueryChange }) {
         onLogout={handleLogout}
         mobileOpen={sidebar.isOpen}
         onMobileClose={sidebar.close}
+        user={user}
       />
 
       <main className="flex-1 min-w-0 flex flex-col">
