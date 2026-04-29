@@ -36,10 +36,12 @@ Ce repo contient **l'application web complète** : landing publique, authentific
 
 ### Quelques highlights
 
-- **Landing en 15 sections** avec animations scroll-driven (Framer Motion)
-- **2 marquees infinies** opposées (logos d'intégrations + témoignages) avec masques fade et pause au hover
-- **Dashboard** avec sidebar drawer mobile, KPIs animés, heatmap d'activité 12 semaines, sparklines
-- **Chatbot scripté** maison style Crisp — 5 intentions + escalade mailto, avec persistance localStorage
+- **Architecture multi-pages hub & spokes** (style Activepieces) : landing courte 7 sections + 7 spokes spécialisés + **41 pages auto-générées par slug** (`/templates/{slug}` × 20 + `/integrations/{slug}` × 21) → **60+ URLs indexables Google**
+- **2 marquees infinies** opposées (21 logos d'intégrations + 8 témoignages) avec masques fade et pause au hover
+- **Dashboard premium** avec **CommandPalette ⌘K** style Linear/Raycast, StatCards count-up animées, sidebar redesignée avec sections, WelcomeModal 5-step au premier login
+- **Mode démo `?demo=true`** : permet aux jurys/recruteurs d'explorer le dashboard sans signup
+- **Chatbot scripté** maison style Crisp — 5 intentions + escalade mailto, persistance localStorage
+- **Auth pages premium** : boutons pill, gradient-shift animé sur les H1, AuthShell enrichi avec chips logos + trust stats
 - **Charte custom "Nuit & Lumière"** avec design system complet (5 couleurs signature, 3 familles de typographie)
 
 ---
@@ -182,13 +184,15 @@ akili-web/
 ├── src/
 │   ├── components/
 │   │   ├── landing/           # 15 sections de la landing
-│   │   ├── dashboard/         # Sidebar, Topbar, StatCard, AutomationRow…
+│   │   ├── dashboard/         # Sidebar, Topbar, StatCard, CommandPalette, WelcomeModal, DemoBanner…
+│   │   ├── marketing/         # MarketingLayout, SpokeHero, IntegrationsGrid, FeatureBlocks, MigrationStories, TeamGrid, PublicRoadmap
 │   │   ├── support/           # SupportWidget (chatbot)
 │   │   ├── auth/              # AuthShell layout
 │   │   ├── legal/             # LegalLayout pour les pages /legal/*
-│   │   └── ui/                # Design system : Button, Card, Badge, Modal…
+│   │   └── ui/                # Design system : Button (avec shape='pill'), Card, Badge, Modal…
 │   │
-│   ├── pages/                 # 22 routes au total
+│   ├── pages/                 # 60+ routes (12 statiques + 41 auto-générées)
+│   │   └── marketing/         # 9 pages spokes + 2 pages détaillées dynamiques
 │   │   ├── LandingPage.jsx
 │   │   ├── LoginPage.jsx · SignupPage.jsx · ForgotPasswordPage.jsx
 │   │   ├── DashboardPage.jsx · AutomationsPage.jsx · RunsPage.jsx
@@ -247,10 +251,11 @@ Inspirée de la métaphore *"la sagesse qui se lève"*, la charte joue sur le co
 
 | Métrique | Valeur |
 |---|---|
-| **Main bundle (app code)** | 148 KB raw → 39 KB gzip |
-| **Total transfer (1re visite)** | ~220 KB gzip |
-| **Build time** | ~9 s en moyenne |
+| **Main bundle (app code)** | 113 KB raw → **30 KB gzip** |
+| **Total transfer (1re visite)** | ~225 KB gzip |
+| **Build time** | ~12 s en moyenne |
 | **Vendor chunks** | 5 (react · supabase · motion · icons · utils) |
+| **URLs indexables** | **60+** (12 statiques + 41 auto-générées) |
 | **Lighthouse Performance** | 90+ (production) |
 
 ### Stratégies appliquées
