@@ -94,7 +94,7 @@ export function Hero() {
               custom={0}
               className="font-display font-bold text-xs tracking-[0.18em] uppercase text-akili-or"
             >
-              · Nuit &amp; Lumière ·
+              · La sagesse au travail ·
             </motion.span>
 
             <motion.h1

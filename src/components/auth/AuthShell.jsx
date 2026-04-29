@@ -79,7 +79,7 @@ export function AuthShell({ children, footer }) {
         {/* Top : eyebrow + chips intégrations */}
         <div className="relative">
           <span className="font-display font-bold text-xs tracking-[0.18em] uppercase text-akili-or">
-            · Nuit &amp; Lumière ·
+            · La sagesse au travail ·
           </span>
 
           <div className="mt-8 flex items-center gap-3">

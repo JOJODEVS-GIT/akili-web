@@ -182,7 +182,7 @@ export function ProductShowcase() {
                 <div className="flex items-baseline justify-between mb-5">
                   <div>
                     <h3 className="font-display font-extrabold text-xl tracking-[-0.02em] text-akili-charbon">
-                      Bonjour, Aïcha 👋
+                      Bonjour Aïcha.
                     </h3>
                     <p className="font-sans text-[12px] text-akili-charbon-mute mt-0.5">
                       Tu as économisé <span className="font-bold text-akili-coral">8 h cette semaine</span>.

@@ -39,7 +39,7 @@ const FEATURES = [
   {
     n: '03',
     Icon: Sparkles,
-    title: 'Accessible',
+    title: 'Direct',
     body: "Une commande, un clic, un raccourci clavier. Aucune ligne de code, aucun PDF de 80 pages à lire avant de commencer.",
     accentHex: '#F2C94C',
     badgeBorderClass: 'border-akili-or',
