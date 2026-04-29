@@ -5,6 +5,7 @@
 import { MarketingLayout } from '@/components/marketing/MarketingLayout';
 import { SpokeHero } from '@/components/marketing/SpokeHero';
 import { ProductShowcase } from '@/components/landing/ProductShowcase';
+import { FeatureBlocks } from '@/components/marketing/FeatureBlocks';
 import { HowItWorks } from '@/components/landing/HowItWorks';
 import { UseCases } from '@/components/landing/UseCases';
 import { CTA } from '@/components/landing/CTA';
@@ -23,10 +24,11 @@ export default function ProduitPage() {
         }
         subtitle="Du clic à l'exécution en moins de 60 secondes. Un dashboard clair, des templates qui parlent, et une dataviz qui te dit où tu en es vraiment."
         cta={{ label: 'Démarrer gratuitement', href: '/signup' }}
-        secondaryCta={{ label: 'Voir les tarifs', href: '/tarifs' }}
+        secondaryCta={{ label: 'Voir les tarifs', href: '/#tarifs' }}
       />
 
       <ProductShowcase />
+      <FeatureBlocks />
       <HowItWorks />
       <UseCases />
       <CTA />
