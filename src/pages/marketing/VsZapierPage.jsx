@@ -5,6 +5,7 @@
 import { MarketingLayout } from '@/components/marketing/MarketingLayout';
 import { SpokeHero } from '@/components/marketing/SpokeHero';
 import { Comparison } from '@/components/landing/Comparison';
+import { MigrationStories } from '@/components/marketing/MigrationStories';
 import { FAQ } from '@/components/landing/FAQ';
 import { CTA } from '@/components/landing/CTA';
 
@@ -26,6 +27,7 @@ export default function VsZapierPage() {
       />
 
       <Comparison />
+      <MigrationStories />
       <FAQ />
       <CTA />
     </MarketingLayout>
