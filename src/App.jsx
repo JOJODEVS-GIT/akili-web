@@ -43,6 +43,10 @@ const ManifestoPage     = lazy(() => import('@/pages/marketing/ManifestoPage'));
 const VsZapierPage      = lazy(() => import('@/pages/marketing/VsZapierPage'));
 const ContactEquipePage = lazy(() => import('@/pages/marketing/ContactEquipePage'));
 
+// Pages dynamiques par slug — auto-générées pour SEO (PR #20)
+const IntegrationDetailPage = lazy(() => import('@/pages/marketing/IntegrationDetailPage'));
+const TemplateDetailPage    = lazy(() => import('@/pages/marketing/TemplateDetailPage'));
+
 export default function App() {
   return (
     <AuthProvider>
@@ -69,7 +73,9 @@ export default function App() {
               {/* Pages marketing spokes — multipage architecture */}
               <Route path="/produit"             element={<ProduitPage />} />
               <Route path="/templates"           element={<TemplatesPage />} />
+              <Route path="/templates/:slug"     element={<TemplateDetailPage />} />
               <Route path="/integrations"        element={<IntegrationsPage />} />
+              <Route path="/integrations/:slug"  element={<IntegrationDetailPage />} />
               <Route path="/securite"            element={<SecuritePage />} />
               <Route path="/manifesto"           element={<ManifestoPage />} />
               <Route path="/comparaisons/zapier" element={<VsZapierPage />} />
