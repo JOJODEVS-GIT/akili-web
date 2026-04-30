@@ -6,6 +6,7 @@ import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { HeroTerminal } from './HeroTerminal';
 import { DemoModal } from './DemoModal';
+import { FloatingParticlesBackground } from './FloatingParticlesBackground';
 import { usePublicStats } from '@/hooks/usePublicStats';
 
 const fadeUp = {
@@ -54,6 +55,18 @@ export function Hero() {
       ref={ref}
       className="relative overflow-hidden bg-akili-indigo text-akili-papyrus pt-24 pb-26 lg:pt-30"
     >
+      {/* Particules Or flottantes (canvas, derrière tout) */}
+      <FloatingParticlesBackground
+        particleCount={70}
+        particleColor="#F2C94C"
+        particleOpacity={0.5}
+        glowIntensity={14}
+        movementSpeed={0.35}
+        mouseInfluence={150}
+        mouseGravity="attract"
+        gravityStrength={45}
+      />
+
       {/* Halo or top-right (parallax) */}
       <motion.div
         aria-hidden
