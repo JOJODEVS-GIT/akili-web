@@ -108,6 +108,23 @@ export function AuthProvider({ children }) {
     return { data, error };
   }, [session?.user?.id]);
 
+  // Mode démo : si l'URL contient ?demo=true, on injecte un user fictif.
+  // Permet aux jurys, recruteurs, démos commerciales de naviguer dans
+  // le dashboard sans inscription. Le DemoBanner indique le contexte.
+  const isDemoMode = typeof window !== 'undefined'
+    && new URLSearchParams(window.location.search).get('demo') === 'true';
+
+  const demoUser = isDemoMode
+    ? {
+        id: 'demo-user',
+        email: 'aicha@studio.io',
+        name: 'Aïcha Diallo',
+        avatar_url: null,
+        plan: 'pro',
+        user_metadata: { full_name: 'Aïcha Diallo' },
+      }
+    : null;
+
   // Pour rétro-compat avec le code legacy qui utilise `user.name`
   const user = session?.user
     ? {
@@ -118,7 +135,7 @@ export function AuthProvider({ children }) {
         plan: profile?.plan || 'atelier',
         ...session.user,
       }
-    : null;
+    : demoUser;
 
   return (
     <AuthContext.Provider
