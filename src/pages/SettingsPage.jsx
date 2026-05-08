@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/Badge';
 import { useToast } from '@/components/ui/Toast';
 import { useConfirm } from '@/components/ui/ConfirmDialog';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/lib/supabase';
 import { cn } from '@/lib/cn';
 
 const DEFAULT_NOTIFICATIONS = { email: true, push: false, weekly_digest: true };
@@ -84,14 +85,31 @@ export default function SettingsPage() {
       danger: true,
     });
     if (!ok) return;
-    // V1 : la suppression du user auth nécessite un endpoint backend (service_role).
-    // En attendant, on déconnecte simplement et on prévient.
+
+    // Appelle la fonction Postgres delete_my_account()
+    // Elle supprime auth.users + cascade automatique sur toutes les tables liées
+    const { error } = await supabase.rpc('delete_my_account');
+
+    if (error) {
+      toast({
+        type: 'error',
+        title: 'Suppression échouée',
+        description: error.message || "Une erreur est survenue. Réessaie dans un instant.",
+      });
+      return;
+    }
+
     toast({
-      type: 'info',
-      title: 'Demande enregistrée',
-      description: 'Notre équipe va supprimer définitivement ton compte sous 48 h. Tu reçois un email à la fin.',
+      type: 'success',
+      title: 'Compte supprimé',
+      description: 'Toutes tes données ont été effacées. À bientôt.',
     });
-    setTimeout(() => { signOut(); navigate('/'); }, 1500);
+
+    // Déconnecte la session locale et redirige
+    setTimeout(async () => {
+      await signOut();
+      navigate('/', { replace: true });
+    }, 1500);
   };
 
   const plan = PLAN_LABEL[profile?.plan] || PLAN_LABEL.atelier;
