@@ -15,11 +15,13 @@ import {
   CaretDown, List, X,
   Lightning, FlowArrow, Cube, ShieldCheck,
   Receipt, FlowArrow as Comparison,
+  ArrowRight,
 } from '@phosphor-icons/react';
 import { Container } from '@/components/ui/Container';
 import { Logo } from '@/components/ui/Logo';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/cn';
+import { useAuth } from '@/contexts/AuthContext';
 
 const PRODUCT_DROPDOWN = [
   {
@@ -150,6 +152,10 @@ function NavDropdown({ label, items }) {
 export function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
+  const { user } = useAuth();
+
+  // Première lettre du nom (avatar fallback)
+  const initial = (user?.name || user?.email || '').trim().charAt(0).toUpperCase() || 'U';
 
   // Ferme le drawer au changement de route
   useEffect(() => {
@@ -189,14 +195,28 @@ export function Navbar() {
             </a>
           </nav>
 
-          {/* CTAs droite */}
+          {/* CTAs droite — adaptive selon état d'authentification */}
           <div className="flex items-center gap-3">
-            <Link to="/login" className="hidden sm:block">
-              <Button variant="ghost" size="sm">Se connecter</Button>
-            </Link>
-            <Link to="/signup" className="hidden sm:block">
-              <Button variant="primary" size="sm" shape="pill">Commencer</Button>
-            </Link>
+            {user ? (
+              <Link to="/app" className="hidden sm:flex items-center gap-2.5 group">
+                {/* Avatar avec initiale */}
+                <span className="w-8 h-8 rounded-full bg-gradient-to-br from-akili-or to-akili-coral text-akili-papyrus flex items-center justify-center font-display font-extrabold text-sm shadow-akili-sm">
+                  {initial}
+                </span>
+                <Button variant="primary" size="sm" shape="pill" iconRight={<ArrowRight size={14} weight="bold" />}>
+                  Mon dashboard
+                </Button>
+              </Link>
+            ) : (
+              <>
+                <Link to="/login" className="hidden sm:block">
+                  <Button variant="ghost" size="sm">Se connecter</Button>
+                </Link>
+                <Link to="/signup" className="hidden sm:block">
+                  <Button variant="primary" size="sm" shape="pill">Commencer</Button>
+                </Link>
+              </>
+            )}
 
             {/* Burger mobile */}
             <button
@@ -302,12 +322,22 @@ export function Navbar() {
 
               {/* Drawer footer CTAs */}
               <div className="px-5 py-4 border-t border-akili-line space-y-2">
-                <Link to="/login" className="block">
-                  <Button variant="outline" size="md" fullWidth shape="pill">Se connecter</Button>
-                </Link>
-                <Link to="/signup" className="block">
-                  <Button variant="primary" size="md" fullWidth shape="pill">Commencer</Button>
-                </Link>
+                {user ? (
+                  <Link to="/app" className="block">
+                    <Button variant="primary" size="md" fullWidth shape="pill" iconRight={<ArrowRight size={16} weight="bold" />}>
+                      Mon dashboard
+                    </Button>
+                  </Link>
+                ) : (
+                  <>
+                    <Link to="/login" className="block">
+                      <Button variant="outline" size="md" fullWidth shape="pill">Se connecter</Button>
+                    </Link>
+                    <Link to="/signup" className="block">
+                      <Button variant="primary" size="md" fullWidth shape="pill">Commencer</Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </motion.div>
           </>
